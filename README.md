@@ -1,2 +1,2 @@
-# fmri_neurofeedback
-A python framework to perform fMRI neurofeedback experiments
+# A Python framework to perform fMRI decoding neurofeedback experiments
+sdfgsfdg
