@@ -6,8 +6,6 @@ description: "Just the Docs is a responsive Jekyll theme."
 permalink: /
 ---
 
-![alt text](https://pedromargolles.github.io/pyDecNef/assets/images/pydecnef.png)
-
 # PyDecNef
 {: .fs-9 }
 
