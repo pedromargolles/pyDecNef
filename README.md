@@ -1,2 +1,2 @@
-# A framework to perform real-time fMRI decoding neurofeedback experiments with Python
+# pyDecNef: A Python framework for real-time fMRI decoded neurofeedback
 sdfgsfdg
