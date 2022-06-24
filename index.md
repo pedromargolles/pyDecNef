@@ -6,7 +6,7 @@ description: "Just the Docs is a responsive Jekyll theme."
 permalink: /
 ---
 
-# PyDecNef.
+# PyDecNef
 {: .fs-9 }
 
 A Python framework for real-time fMRI decoded neurofeedback
