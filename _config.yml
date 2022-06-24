@@ -4,6 +4,9 @@ remote_theme: just-the-docs/just-the-docs
 # Set logo
 logo: "/assets/images/logo.png"
 
+# Set favicon
+favicon: "/assets/images/favicon.ico"
+
 # Aux links for the upper right navigation
 aux_links:
   "pyDecNef repository on GitHub":
