@@ -1,14 +1,23 @@
-from colorama import init, Fore
+############################################################################
+# AUTHORS: Pedro Margolles & David Soto
+# EMAIL: pmargolles@bcbl.eu, dsoto@bcbl.eu
+# COPYRIGHT: Copyright (C) 2021, Python fMRI-Neurofeedback
+# INSTITUTION: Basque Center on Cognition, Brain and Language (BCBL), Spain
+# LICENCE: 
+############################################################################
+
 from pathlib import Path
 import time
-init(autoreset=True) # Autoreset line color style
+from colorama import init, Fore
+import sys
+init(autoreset=True)
 
 #############################################################################################
-# DESCRIPTION
+# EXP CLASS
 #############################################################################################
 
-# Main configuration file. 
-# Here you can set experimental, MRI scanner parameters and directory routes.
+# Main configuration file 
+# Here you can set experimental, MRI scanner parameters and directory routes
 
 class Exp:
 
@@ -17,30 +26,51 @@ class Exp:
     #############################################################################################
 
     # Volumes processing information
-    n_heatup_vols = 5 # Number of volumes for heating up MRI scanner (heatup duration = TR * n_heatup_vols)
-    n_baseline_vols = 30 # Number of baseline volumes to sample before beggining with the experimental task (baseline duration = TR * n_baseline_vols)
-    low_HRF_peak = 5 # Bottom HRF peak threshold (seconds from trial onset)
-    high_HRF_peak = 11 # Top HRF peak threshold (seconds from trial onset)
-    TR = 2 # Volumes sampling rate (in seconds)
+    n_heatup_vols = 5 # Number of volumes needed for heating up MRI scanner (heatup duration = TR * n_heatup_vols)
+
+    n_baseline_vols = 20 # Number of baseline volumes after heatup to sample before beggining with the experimental task (baseline duration = TR * n_baseline_vols)
+
+    HRF_peak_onset = 5 # HRF peak onset threshold (seconds from trial onset). Default HRF_peak_onset = 5 for decoding procedure = 'average_hrf_peak_vols' or 'average_probs'. 
+                       # Set to 0 if do you want to decode volumes from trial onset in dynamic neurofeedback experiments.
+
+    HRF_peak_offset = 11 # HRF peak offset threshold (seconds from trial onset). Default HRF_peak_offset = 11 for decoding procedure = 'average_hrf_peak_vols' or 'average_probs'. 
+                         # Set to float("inf") if using an undetermined number of HRF peak volumes within each trial of dynamic neurofeedback experiments.
+
+    TR = 2 # Repetition time. Volumes sampling rate (in seconds)
+
 
     # Volumes tracking
-    first_vol_idx = 1 # First volume index to track
+    first_vol_idx = 1 # First volume index to track in EXP.raw_volumes_folder
+    index_format = '04d' # How volumes indexes are left-zero padded in fMRI cls.raw_volumes_folder folder? (ex., IM-0001.dcm)
     
-    # Decoding procedure
-    decoding_procedure = 'average_probs' # Average vols within HRF peak probabilities of decoding ground truth 'average_probs' or 
-                                         # 'average_hrf_peak_vols' to average vols within HRF peak before decoding a single 
-                                         # averaged vol to increase signal-to-noise ratio
+    # Z-scoring procedure
+    zscoring_procedure = 'to_model_session' # 'to_baseline' (each task volume will be z-scored relative to data from that run baseline in specific R.O.I. For example, volumes 51 will be z-scored to n_baseline_vols data)
+                                            # 'to_timeseries' (each task volume will be z-scored relative to that run previous volumes in specific R.O.I.. For example, volume 51 will be z-scored using data from volume 0 to that volume)
+                                            # 'to_model_session' (default) (each task volume will be z-scored relative to model construction session data in specific R.O.I. using its mean and standard deviation).
 
-    @classmethod # This method helps participants data and routes can be easely inherited by all other package classes without instantiating Exp class and repeatedly passing that as a class function argument
+    # Decoding settings
+    decoding_procedure = 'average_probs' # 'average_hrf_peak_vols' (average volumes within a trial HRF peak before decoding a single averaged volume to increase signal-to-noise ratio)
+                                         # 'average_probs' (default) (average decoding probabilities of volumes within a trial HRF peak to increase feedbacks variability)
+                                         # 'dynamic' (all volumes within a trial HRF peak, will be decoded independently and sent individually to experimental software as feedback)
+
+
+    @classmethod # This method ensures participants data and directory routes can be inherited by all other classes
     def _new_participant(cls):
 
-        """ Register new participant data each time main.py starts to set directories routes """
+        """ Request new participant data (participant, session, run) each time main.py runs to set directories routes """
+
+        def check_file(file):
+
+            """ Check if a essential file exists or not. If not then cancel script execution. """
+
+            if not file.exists():
+                sys.exit(Fore.RED + f'[ERROR] File/Directory "{file}" does not exist. Check that you are pointing to a correct path. Breaking main.py execution.')
 
         #############################################################################################
         # DIRECTORIES & DATA
         #############################################################################################
 
-        # First ask for participant info to find its corresponding folders
+        # First, ask for participant info to find/generate its corresponding folders
         print(Fore.YELLOW + 'Specify participants data before initialization:')
         cls.subject = input(Fore.YELLOW + '\nParticipant number: ')
         cls.session = input(Fore.YELLOW + 'Session number: ')
@@ -50,38 +80,54 @@ class Exp:
         # Package directory
         cls.moduledir = Path(__file__).absolute().parent.parent.parent
 
-        # fMRI raw vols output folder
-        #files_dir = moduleDir / '1.fakefmri_realdata/output' # To use with fake fMRI simulator in 1.fakefmri_realdata
-        cls.files_dir = '/firmm/20211028.pm21oct.pm21oct' # To use in a real experiment setting
-
-        # Required resources directory (i.e., pretrained model, region of interest mask & reference functional volume to corregister this session volumes)
+        # fMRI raw volumes output folder
+        cls.raw_volumes_folder = cls.moduledir.parent / '1.fakefmri_realdata/output' # To use with fMRI simulator stored in ../../1.fakefmri_realdata
+        #cls.raw_volumes_folder = '/firmm/20211028.pm21oct.pm21oct' # To use in a real experiment setting
+        check_file(cls.raw_volumes_folder)
+ 
+        # Required resources directory 
+        # Contains pretrained model, region of interest mask, reference functional volume & z-scoring information
         cls.resources_dir = cls.moduledir / f'required_resources/sub-{cls.subject}'
+        check_file(cls.resources_dir)
 
         # Pretrained model path
         cls.model_file = cls.resources_dir / 'models/bilateral_occipital_model.joblib'
+        check_file(cls.model_file)
 
         # Region of interest mask path (as .nii to maximize load speed)
         cls.mask_file = cls.resources_dir / 'masks/bilateral_occipital.nii'
+        check_file(cls.mask_file)
 
-        # Model construction session reference volume path
+        # Reference functional volume path (from model construction session. As .nii to maximize load speed)
         cls.ref_vol_file = cls.resources_dir / 'training_session_ref_image/example_func_deoblique_brain.nii'
+        check_file(cls.ref_vol_file)
+        
+        # ROI reference data for z-scoring (if zscoring_procedure is 'to_model_session')
+        if cls.zscoring_procedure == 'to_model_session':
+            # Numpy arrays containing mean and standard deviation of model construction session as independent numpy files
+            cls.zscoring_mean =  cls.resources_dir / 'zscoring/mean_bilateral_occipital.npy'
+            cls.zscoring_std = cls.resources_dir / 'zscoring/std_bilateral_occipital.npy'
 
-        # Make an output dir to store participants session results and preprocessed vols
+        # Create an outputs directory to store participant session log files and preprocessed volumes
         cls.outputs_dir = cls.moduledir / f'outputs/sub-{cls.subject}_session-{cls.session}'
         Path(cls.outputs_dir).mkdir(parents=True, exist_ok=True)
         
         # main.py script run time
         script_run_time = time.strftime('%Y-%m-%d_%H-%M-%S') # Get main.py script run time, to create an unique run folder 
-                                                             # and avoid folder replacement problems when wrongly typing run number
+                                                             # and avoid folder replacement problems when wrongly typing runs number
 
-        # Make a run dir inside outputs_dir to store all participant session results
+        # Make a run directory inside outputs dir to store all participant log files and preprocessed volumes
         cls.run_dir = cls.outputs_dir / f'run-{cls.run}_{script_run_time}'
         Path(cls.run_dir).mkdir(parents=True, exist_ok=True)
 
-        # Make a logs dir inside run_dir to store all participant session data
+        # Make a trials directory inside run directory to store all masked volumes and information classified by trial
+        cls.trials_dir = cls.run_dir / 'trials'
+        Path(cls.trials_dir).mkdir(parents=True, exist_ok=True)
+
+        # Make a logs directory inside run directory to store run logs data
         cls.logs_dir = cls.run_dir / 'logs_dir'
         Path(cls.logs_dir).mkdir(parents=True, exist_ok=True)
 
-        # Make a preprocessed volumes dir inside run_dir to store all outputs corresponding to preprocessed vols
+        # Make a preprocessed volumes directory inside run directory to store all outputs corresponding to preprocessed volumes in that run
         cls.preprocessed_dir = cls.run_dir / 'preprocessed'
         Path(cls.preprocessed_dir).mkdir(parents=True, exist_ok=True)

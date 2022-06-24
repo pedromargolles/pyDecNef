@@ -1,0 +1,354 @@
+---
+API: 2.1
+OpenSesame: 3.3.8
+Platform: posix
+---
+set width 1024
+set uniform_coordinates yes
+set title neurofeedback_session
+set subject_parity even
+set subject_nr 0
+set start neurofeedback_task
+set sound_sample_size -16
+set sound_freq 48000
+set sound_channels 2
+set sound_buf_size 1024
+set sampler_backend legacy
+set round_decimals 2
+set mouse_backend legacy
+set keyboard_backend legacy
+set height 768
+set fullscreen no
+set form_clicks no
+set foreground white
+set font_underline no
+set font_size 18
+set font_italic no
+set font_family mono
+set font_bold no
+set experiment_path "/Users/pedromargolles/scripts/neurofeedback/refractor_nf/3.opensesame"
+set disable_garbage_collection yes
+set description "The main experiment item"
+set coordinates uniform
+set compensation 0
+set color_backend legacy
+set clock_backend legacy
+set canvas_backend legacy
+set background black
+
+define inline_script connect_to_server
+	set description "Executes Python code"
+	___run__
+	#----------------COPY THIS AT THE BEGINNING OF PSYCHOPY/OPENSESAME SCRIPT -----------------------
+	
+	#############################################################################################
+	# IMPORT DEPENDENCIES
+	#############################################################################################
+	
+	import socket
+	import sys
+	import pickle
+	import colorama
+	import time
+	from colorama import Fore # To colour outputs in the terminal
+	colorama.init(autoreset=True) # Initialize Colorama
+	
+	#############################################################################################
+	# DEFINE SERVER-CLIENT CONNECTION VARIABLES
+	#############################################################################################
+	
+	IP = '169.254.132.244' # Personal computer IP
+	#IP = socket.gethostname() # To use in the localhost
+	#IP = '127.0.0.1' # Localhost IP
+	PORT = 6304 # Server PORT
+	FORMAT = 'utf-8' # Data format for bytes encoding and decoding
+	N_BYTES = 2000 # Maximun number of bytes to wait from connection
+	
+	#############################################################################################
+	# CREATE A CONNECTION WITH THE SERVER
+	#############################################################################################
+	
+	# Waiting for connection
+	print(Fore.YELLOW + '[STARTING] Client is starting...')
+	print(Fore.YELLOW + '[WAITING] Waiting for connection...')
+	
+	# Start TCP/IP socket
+	socket.setdefaulttimeout(500)
+	client = socket.socket(socket.AF_INET, # IPV4 
+	                       socket.SOCK_STREAM) # TCP
+	try:
+	    client.connect((IP, # To connect to the server side
+	                    PORT)) # Stablish a port to connect (usually above 1000))
+	    print(Fore.GREEN + f'[CONNECTED] You are now connected to {IP} on port {PORT}.')
+	    print(Fore.YELLOW + '[WAITING] Waiting for messages...')
+	except:
+	    print(Fore.RED + f'[ERROR] Connection to server {IP} on port {PORT} has failed.')
+	    print(Fore.YELLOW + '[CLOSING] Closing client...')
+	    sys.exit() # To close the client script in case connection to specified IP and PORT fails
+	
+	#------------------------------------------------------------------------------------------------
+	__end__
+	set _prepare ""
+
+define sketchpad connecting_to_server
+	set duration 1
+	set description "Muestra estímulos"
+	draw textline center=1 color=white font_bold=no font_family=mono font_italic=no font_size=18 html=yes show_if=always text="connecting to the server..." x=0 y=0 z_index=0
+
+define inline_script decode_request
+	set description "Executes Python code"
+	___run__
+	#----------------COPY THIS IN A PSYCHOPY/OPENSESAME MODULE -----------------------
+	
+	#############################################################################################
+	# REQUEST AND WAIT FOR DECODING ACCURACY / RSA
+	#############################################################################################
+	
+	msg = {'request_type': 'feedback_start'}
+	msg = pickle.dumps(msg) # Serialize the dictionary
+	client.send(msg) # Send the dictionary
+	ok = False
+	print('Feedback requested')
+	while ok == False:
+	    msg = client.recv(N_BYTES)
+	    msg = pickle.loads(msg)
+	    print(msg)
+	    try:
+	        exp.set('yield_accuracy', float(msg))
+	        last_acc = exp.get('yield_accuracy') # Get last TR performance
+	        if last_acc > 0.5:
+	            pseudoword = Sampler(pseudoword_wav, volume = .5)
+	            pseudoword.play() # Reproduce word
+	            pseudoword.wait() # Wait until audio ends
+	    except:
+	        ok = True
+	    #if msg != 'ok':
+	    #   var.yield_accuracy = float(msg)
+	    #    print(msg)
+	    #if msg == 'ok':
+	    #    ok = True
+	        
+	#------------------------------------------------------------------------------------------------
+	__end__
+	___prepare__
+	pseudoword_wav = pool['gradico.wav']
+	pseudoword = Sampler(pseudoword_wav, volume = .5)
+	__end__
+
+define inline_script end_run
+	set description "Executes Python code"
+	___run__
+	msg = {'request_type': 'end_run'}
+	msg = pickle.dumps(msg) # Serialize the dictionary
+	client.send(msg) # Send the dictionary
+	print(msg)
+	ok = False
+	while ok == False:
+	    msg = client.recv(N_BYTES)
+	    msg = pickle.loads(msg)
+	    #msg = msg.decode('utf-8')
+	    print(msg)
+	    if msg == 'ok':
+	        ok = True
+	__end__
+	set _prepare ""
+
+define sequence experiment_seq
+	set flush_keyboard yes
+	set description "Corre un número de objetos en secuencia"
+	run new_trial_onset always
+	run start_feedback always
+	run decode_request always
+	run logging always
+	run increase_trial_idx always
+	run post_hrf_fixation always
+
+define loop experiment_stimuli
+	set source_file ""
+	set source table
+	set repeat 1
+	set order random
+	set description "Corre otro objeto de forma repetida"
+	set cycles 8
+	set continuous no
+	set break_if_on_first yes
+	set break_if never
+	setcycle 0 target living
+	setcycle 0 congruency congruent
+	setcycle 1 target living
+	setcycle 1 congruency congruent
+	setcycle 2 target living
+	setcycle 2 congruency incongruent
+	setcycle 3 target living
+	setcycle 3 congruency incongruent
+	setcycle 4 target nonliving
+	setcycle 4 congruency congruent
+	setcycle 5 target nonliving
+	setcycle 5 congruency congruent
+	setcycle 6 target nonliving
+	setcycle 6 congruency incongruent
+	setcycle 7 target nonliving
+	setcycle 7 congruency incongruent
+	run experiment_seq
+
+define inline_script fMRI_baseline
+	set description "Executes Python code"
+	___run__
+	#----------------COPY THIS IN A PSYCHOPY/OPENSESAME MODULE -----------------------
+	
+	#############################################################################################
+	# WAIT FOR BASELINE ACQUISITION
+	#############################################################################################
+	
+	start = False
+	while start == False: # Stay here until receiving baselineok signal from the server
+	    msg = client.recv(N_BYTES)
+	    msg = pickle.loads(msg)
+	    #msg = msg.decode('utf-8')
+	    print(msg)
+	    if msg == 'baselineok':
+	        start = True
+	        print('Baseline OK')
+	        
+	#------------------------------------------------------------------------------------------------
+	__end__
+	set _prepare ""
+
+define inline_script fMRI_heatup
+	set description "Executes Python code"
+	___run__
+	#----------------COPY THIS IN A PSYCHOPY/OPENSESAME MODULE -----------------------
+	
+	#############################################################################################
+	# WAIT UNTIL FMRI IS HEATED UP
+	#############################################################################################
+	
+	start = False
+	while start == False: # Stay here until receiving fMRIheatedup signal from the server
+	    msg = client.recv(N_BYTES)
+	    msg = pickle.loads(msg)
+	    #msg = msg.decode('utf-8')
+	    print(msg)
+	    if msg == 'fmriheatedup':
+	        start = True
+	        print('Heatup OK')
+	#------------------------------------------------------------------------------------------------
+	__end__
+	set _prepare ""
+
+define inline_script increase_trial_idx
+	set description "Executes Python code"
+	___run__
+	exp.set('trial_idx', var.trial_idx + 1)
+	exp.set('keyboard_key', None)
+	__end__
+	set _prepare ""
+
+define sketchpad initial_fixation
+	set duration 1500
+	set description "Muestra estímulos"
+	draw fixdot color=white show_if=always style=default x=0 y=0 z_index=0
+
+define logger last_logging
+	set description "Registra datos experimentales"
+	set auto_log yes
+
+define logger logging
+	set description "Registra datos experimentales"
+	set auto_log yes
+
+define sequence neurofeedback_task
+	set flush_keyboard yes
+	set description "Corre un número de objetos en secuencia"
+	run set_variables always
+	run connecting_to_server always
+	run connect_to_server always
+	run run_start_time always
+	run wait_until_heatup always
+	run fMRI_heatup always
+	run wait_until_baseline always
+	run fMRI_baseline always
+	run initial_fixation always
+	run experiment_stimuli always
+	run time_run_end_time always
+	run end_run always
+	run last_logging always
+
+define inline_script new_trial_onset
+	set description "Executes Python code"
+	___run__
+	#----------------COPY THIS IN A PSYCHOPY/OPENSESAME MODULE -----------------------
+	
+	#############################################################################################
+	# NEW TRIAL SIGNAL
+	#############################################################################################
+	
+	msg = {'request_type': 'trial_onset', 
+	       'trial_idx': var.trial_idx,
+	       'ground_truth': var.ground_truth,
+	       'word': var.concept}
+	
+	msg = pickle.dumps(msg) # Serialize the dictionary
+	client.send(msg) # Send the dictionary
+	print(msg)
+	ok = False
+	while ok == False:
+	    msg = client.recv(N_BYTES)
+	    msg = pickle.loads(msg)
+	    #msg = msg.decode('utf-8')
+	    print(msg)
+	    if msg == 'ok':
+	        ok = True
+	        
+	#------------------------------------------------------------------------------------------------
+	__end__
+	set _prepare ""
+
+define sketchpad post_hrf_fixation
+	set duration 6000
+	set description "Muestra estímulos"
+	draw fixdot color=white show_if=always style=default x=0 y=0 z_index=0
+
+define inline_script run_start_time
+	set description "Executes Python code"
+	set _run "var.run_start_time = self.time()"
+	set _prepare ""
+
+define inline_script set_variables
+	set description "Executes Python code"
+	___run__
+	from random import shuffle
+	import numpy as np
+	import os.path
+	
+	exp.set('trial_idx', 0)
+	exp.set('keyboard_key', None)
+	
+	exp.set('ground_truth', 0) # Non-living
+	#exp.set('ground_truth', 1) # Living
+	
+	exp.set('concept', 'gradico')
+	__end__
+	set _prepare ""
+
+define sketchpad start_feedback
+	set duration 1
+	set description "Muestra estímulos"
+	draw fixdot color=white show_if=always style=default x=0 y=0 z_index=0
+
+define inline_script time_run_end_time
+	set description "Executes Python code"
+	set _run "var.run_end_time = self.time() - var.run_start_time"
+	set _prepare ""
+
+define sketchpad wait_until_baseline
+	set duration 1
+	set description "Muestra estímulos"
+	draw textline center=1 color=white font_bold=no font_family=mono font_italic=no font_size=18 html=yes show_if=always text="" x=0 y=0 z_index=0
+	draw fixdot color=white show_if=always style=default x=0 y=0 z_index=0
+
+define sketchpad wait_until_heatup
+	set duration 1
+	set description "Muestra estímulos"
+	draw textline center=1 color=white font_bold=no font_family=mono font_italic=no font_size=18 html=yes show_if=always text="waiting for MRI machine heatup..." x=0 y=0 z_index=0
+
