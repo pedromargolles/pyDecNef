@@ -12,5 +12,5 @@ aux_links:
   "pyDecNef repository on GitHub":
     - "//github.com/pedromargolles/pyDecNef"
 
-# Makes Aux links open in a new tab. Default is false
+# Makes Aux links open in a new tab
 aux_links_new_tab: true
