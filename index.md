@@ -1,12 +1,12 @@
 ---
 layout: default
-title: Home
+title: pyDecNef
 nav_order: 1
-description: "Just the Docs is a responsive Jekyll theme."
+description: "A Python framework for real-time fMRI decoded neurofeedback"
 permalink: /
 ---
 
-# PyDecNef
+# pyDecNef
 {: .fs-9 }
 
 A Python framework for real-time fMRI decoded neurofeedback
