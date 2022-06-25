@@ -2,7 +2,7 @@ title: "pyDecNef"
 remote_theme: just-the-docs/just-the-docs
 
 # Set logo
-# logo: "/assets/images/logo.png"
+logo: "/assets/images/logo.png"
 
 # Set favicon
 favicon: "/assets/images/favicon.ico"
