@@ -6,7 +6,7 @@ description: "A Python framework for real-time fMRI decoded neurofeedback"
 permalink: /
 ---
 
-# pyDecNef
+![alt text](/assets/images/logo.png)
 {: .fs-9 }
 
 A Python framework for real-time fMRI decoded neurofeedback
