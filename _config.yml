@@ -12,5 +12,8 @@ aux_links:
   "pyDecNef repository on GitHub":
     - "//github.com/pedromargolles/pyDecNef"
 
+# Color scheme
+color_scheme: decnef_color
+
 # Makes Aux links open in a new tab
 aux_links_new_tab: true
