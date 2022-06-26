@@ -21,3 +21,6 @@ Just the Docs is built for [Jekyll](https://jekyllrb.com), a static site generat
 <div class="code-example" markdown="1">
 uires n
 </div>
+
+## Authorship
+adfadsf
