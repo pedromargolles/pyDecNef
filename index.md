@@ -14,7 +14,17 @@ permalink: /
 
 ## About
 
-Just the Docs is built for [Jekyll](https://jekyllrb.com), a static site generator. View the [quick start guide](https://jekyllrb.com/docs/) for more information. Just the Docs requires no special plugins and can run on GitHub Pages' standard Jekyll compiler. The [Jekyll SEO Tag plugin](https://github.com/jekyll/jekyll-seo-tag) is included by default (no need to run any special installation) to inject SEO and open graph metadata on docs pages. For information on how to configure SEO and open graph metadata visit the [Jekyll SEO Tag usage guide](https://jekyll.github.io/jekyll-seo-tag/usage/).
+The pyDecNef library provides a complete framework for performing real-time fMRI decoded neurofeedback studies in an open programming language like Python.
+
+From the creation of the working space, through the scripts for building the decoder and fMRI volumes pre-processing, to the scripts for neurofeedback training and data post-processing. 
+
+In addition, introductory tutorials on the neurofeedback decoding technique and advanced use of the pyDecNef pipeline are provided.
+
+Although this library is oriented to the development of classical decoded neurofeedback studies, it can be easily customized for the execution of other types of real-time brain-computer interface fMRI studies.
+
+For example, GLM experiments, adaptive experimental designs where experimental conditions are modified based on brain activation patterns, optimization and calibration designs, encoding and signal reconstruction paradigms...
+
+To access this framework scripts visit its [Github repository](https://github.com/pedromargolles/pyDecNef).
 
 ## Citation
 
