@@ -1,6 +1,6 @@
 ---
 layout: default
-title: pyDecNef
+title: Home
 nav_order: 1
 description: "A Python framework for real-time fMRI decoded neurofeedback"
 permalink: /
