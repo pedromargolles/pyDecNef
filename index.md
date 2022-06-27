@@ -20,7 +20,7 @@ From the creation of the working space, through the scripts for building the dec
 
 In addition, introductory tutorials on the neurofeedback decoding technique and advanced use of the pyDecNef pipeline are provided.
 
-Although this library is oriented to the development of classical decoded neurofeedback studies, it can be easily customized for the execution of other types of real-time brain-computer interface fMRI studies.
+Although this library, as it is, is oriented to the development of classical decoded neurofeedback studies, it can be easily customized for the execution of other types of real-time brain-computer interface fMRI studies.
 
 For example, GLM experiments, adaptive experimental designs where experimental conditions are modified based on brain activation patterns, optimization and calibration designs, encoding and signal reconstruction paradigms...
 
