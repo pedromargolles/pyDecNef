@@ -32,8 +32,10 @@ To access this framework scripts visit its [Github repository](https://github.co
 uires n
 </div>
 
-## Authorship
-adfadsf
-
 ## License
 
+This program is free software: you can redistribute it and/or modify it under the terms of the [GNU General Public License version 3](https://github.com/pedromargolles/pyDecNef/blob/main/LICENSE) as published by the Free Software Foundation.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+Permissions of this strong copyleft license are conditioned on making available complete source code of licensed works and modifications, which include larger works using a licensed work, under the same license. Copyright and license notices must be preserved. Contributors provide an express grant of patent rights.
