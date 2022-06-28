@@ -48,18 +48,19 @@ class Listener:
             shared_instances.new_trial.ground_truth = self.client_request['ground_truth']
             shared_instances.new_trial.stimuli = self.client_request['word']
             shared_instances.new_trial.trial_onset = time.time() # Set an onset time when we receive trial onset signal
-                                                # There might be some delay (miliseconds) with respect to when the onset actually occurred in the experimental software computer 
-                                                # However, by doing this we avoid clock synchronization problems between experimental computer and server computer
+                                                                 # There might be some delay (miliseconds) with respect to when the onset actually occurred in the experimental software computer 
+                                                                 # However, by doing this we avoid clock synchronization problems between experimental computer and server computer
 
             shared_instances.server.send('ok') # Send an OK to the client when request is processed
 
         # If client request from experimental software signals to start with decoding of HRF peak volumes in this trial
         elif self.client_request['request_type'] == 'feedback_start':
-            feedback_thread = threading.Thread(name = 'decoding_trial',
+            feedback_thread = threading.Thread(
+                                               name = 'decoding_trial',
                                                target = shared_instances.new_trial._decode
                                               ) # Call new_trial.decode function and pass server object as an argument, to send back 
-                                                                       # resulting information to experimental software when decoding is finished
-                                                                       # Decode trial volumes in a new thread for not interrupting volumes' filewatcher
+                                                # resulting information to experimental software when decoding is finished
+                                                # Decode trial volumes in a new thread for not interrupting volumes' filewatcher
             
             feedback_thread.start() # Start a new thread
             feedback_thread.join() # Wait until decoding is finished, then continue
@@ -69,9 +70,9 @@ class Listener:
         
         # If client request is a request to finish this experimental run
         elif self.client_request['request_type'] == 'end_run':
-            print('Experimental run is over.')
+            print(Fore.GREEN + '[FINISHING] Experimental run is over.')
             shared_instances.server.send('ok') # End experimental software script and exit.
             os._exit(1) # End server execution
 
         else:
-            print(Fore.Yellow + f'Request {self.client_request} not recognized.')
+            print(Fore.RED + f'[ERROR] Request {self.client_request} not recognized.')

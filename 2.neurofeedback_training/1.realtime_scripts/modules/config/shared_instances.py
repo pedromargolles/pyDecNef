@@ -14,8 +14,9 @@
 # as global variables to facilitate processing in threads and returning results, and sychronization between modules
 
 server = None # Corresponding class in modules/config/connection_config.py
-new_trial = None # Corresponding class in modules/classes/classes.py
 timeseries = None # Corresponding class in modules/classes/classes.py
-new_vol = None # Corresponding class in modules/classes/classes.py
+new_trial = None # Corresponding class in modules/classes/classes.py
+watcher = None # Corresponding class in modules/classes/classes.py
+listener = None # Corresponding class in modules/config/listener.py
 logger = None # Corresponding class in modules/classes/classes.py
-plotter = None # Corresponding class in modules/classes/classes.py
+new_vol = None # Corresponding class in modules/classes/classes.py

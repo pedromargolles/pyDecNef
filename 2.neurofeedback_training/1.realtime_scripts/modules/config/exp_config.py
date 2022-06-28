@@ -104,9 +104,8 @@ class Exp:
         
         # ROI reference data for z-scoring (if zscoring_procedure is 'to_model_session')
         if cls.zscoring_procedure == 'to_model_session':
-            # Numpy arrays containing mean and standard deviation of model construction session as independent numpy files
-            cls.zscoring_mean =  cls.resources_dir / 'zscoring/mean_bilateral_occipital.npy'
-            cls.zscoring_std = cls.resources_dir / 'zscoring/std_bilateral_occipital.npy'
+            cls.zscoring_mean =  cls.resources_dir / 'zscoring/mean_bilateral_occipital.npy' # Numpy array containing mean of model construction session data
+            cls.zscoring_std = cls.resources_dir / 'zscoring/std_bilateral_occipital.npy'  # Numpy array containing standard deviation of model construction session data
 
         # Create an outputs directory to store participant session log files and preprocessed volumes
         cls.outputs_dir = cls.moduledir / f'outputs/sub-{cls.subject}_session-{cls.session}'

@@ -77,14 +77,6 @@ from modules.classes.classes import Logger
 shared_instances.logger = Logger() # Keep track of volumes information and store it in a logs file
 
 #############################################################################################
-# INITIALIZE TRIALS/VOLUMES PLOTTER
-#############################################################################################
-
-from modules.classes.classes import Plotter
-shared_instances.plotter = Plotter() # Plot results across trials or volumes in real-time to keep track
-                                     # of participant performance
-
-#############################################################################################
 # MAIN THREAD
 #############################################################################################
 

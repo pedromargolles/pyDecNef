@@ -1,7 +1,7 @@
 ############################################################################
 # AUTHORS: Pedro Margolles & David Soto
 # EMAIL: pmargolles@bcbl.eu, dsoto@bcbl.eu
-# COPYRIGHT: Copyright (C) 2021, Python fMRI-Neurofeedback
+# COPYRIGHT: Copyright (C) 2021-2022, Python fMRI-Neurofeedback
 # INSTITUTION: Basque Center on Cognition, Brain and Language (BCBL), Spain
 # LICENCE: 
 ############################################################################
@@ -14,7 +14,15 @@ from colorama import init, Fore # For colouring outputs in the terminal
 init()
 
 #############################################################################################
-# FMRI SIMULATION VARIABLES
+# DESCRIPTION
+#############################################################################################
+
+# Using real and raw functional MRI data from a subject's session (i.e., DICOM files),
+# simulate a MRI scanner to test experimental paradigm running in paralel 
+# neurofeedback scripts 
+
+#############################################################################################
+# fMRI SIMULATION VARIABLES
 #############################################################################################
 
 TR = 2
@@ -23,29 +31,29 @@ TR = 2
 # DIRECTORIES & DATA
 #############################################################################################
 
-# Get script dir
+# Get script directory
 script_dir = Path(__file__).absolute().parent 
 
-# Create an output dir to copy DICOM files from real_data dir as it was an fMRI machine
-output_dir = script_dir / 'output'
+# Define an outputs directory to copy DICOM files from real_data directory as it was a real fMRI scanner
+outputs_dir = script_dir / 'outputs'
 
-# Remove output dir if it exists
-if output_dir.exists(): 
-    shutil.rmtree(output_dir)
+# Remove files in outputs_dir (if there are)
+if outputs_dir.exists(): 
+    for file in outputs_dir.glob('*.*'): # Get all volumes in outputs folder
+        file.unlink() # Remove each volume one by one
 
 # Folder with fMRI real_data
 real_data = script_dir / 'real_data'
 
 #############################################################################################
-# TRANSFER DATA
+# DATA TRANSFER FROM REAL_DATA TO OUTPUTS FOLDER
 #############################################################################################
 
-for i in sorted(list(real_data.glob('*'))):
-    print(Fore.YELLOW + f'\n[PROCESSING] Generating vol {i.stem}...')
-    Path(output_dir).mkdir(parents=True, exist_ok=True)
+for volume in sorted(list(real_data.glob('*'))):
+    print(Fore.YELLOW + f'\n[PROCESSING] Generating vol {volume.stem}...')
     time.sleep(TR) # Wait for a TR before generating the next volume
-    shutil.copy(str(i), str(output_dir))
-    print(Fore.RED + '[OK]')
+    shutil.copy(str(volume), str(outputs_dir))
+    print(Fore.GREEN + '[OK]')
     
 
     

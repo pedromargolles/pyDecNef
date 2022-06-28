@@ -100,13 +100,11 @@ class Connection(): # Just accept one-one server-client connection
         print(Fore.YELLOW + '[WAITING] Waiting for messages...')
         message = self.client.recv(self.N_BYTES) # Receive the message
         message = pickle.loads(message) # Unpickle the message
-        #message = message.decode(encoding = self.FORMAT) # Convert to utf-8
         print(Fore.GREEN + f'[RECEIVED] Message: "{message}" received.')
         return message
 
     def send(self, message):
         print(Fore.YELLOW + f'[SENDING] Sending "{message}"...')
-        #message = message.encode(encoding = self.FORMAT) # Convert to utf-8
         message = pickle.dumps(message) # Pickle the message
         self.client.send(message) # Send message
 
