@@ -1,7 +1,7 @@
 ---
 layout: default
-title: Color
-parent: Utilities
+title: Installation
+parent: Introduction
 ---
 
 # Color Utilities
