@@ -8,13 +8,13 @@ permalink: /
 
 ![alt text](/assets/images/wide_logo2.png)
   
-[Get started now](https://github.com/pedromargolles/pyDecNef/docs/introduction){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 } [View it on GitHub](https://github.com/pedromargolles/pyDecNef){: .btn .fs-5 .mb-4 .mb-md-0 }
+[Get started now](https://pedromargolles.github.io/pyDecNef/docs/introduction){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 } [View it on GitHub](https://github.com/pedromargolles/pyDecNef){: .btn .fs-5 .mb-4 .mb-md-0 }
 
 ---
 
 ## About
 
-The pyDecNef library provides a complete framework for performing real-time fMRI decoded neurofeedback studies in an open programming language like Python.
+The pyDecNef library provides a complete framework to perform real-time fMRI decoded neurofeedback studies in an open programming language like Python.
 
 From the creation of the working space, through the scripts for building the decoder and fMRI volumes pre-processing, to the scripts for neurofeedback training and data post-processing. 
 
@@ -34,3 +34,6 @@ uires n
 
 ## Authorship
 adfadsf
+
+## License
+
