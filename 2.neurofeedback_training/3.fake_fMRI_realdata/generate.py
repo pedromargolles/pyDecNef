@@ -18,8 +18,8 @@ init()
 #############################################################################################
 
 # Using real and raw functional MRI data from a subject's session (i.e., DICOM files),
-# simulate a MRI scanner to test experimental paradigm running in paralel 
-# neurofeedback scripts 
+# simulate a MRI scanner to test a experimental paradigm running in paralel 
+# neurofeedback scripts as it was a real fMRI session
 
 #############################################################################################
 # fMRI SIMULATION VARIABLES
