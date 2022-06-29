@@ -25,7 +25,10 @@ An ethernet local area network (LAN) needs to be wired between three computers:
 
 - The client computer which will be running the experimental presentation software, and presenting stimuli and feedback to participant in the MRI scanner.
 
-<center><img src="../../assets/images/ethernet_lan.png" alt="Ethernet Local Area Network Diagram" width="500"></center>
+<center>
+&nbsp;
+<img src="../../assets/images/ethernet_lan.png" alt="Ethernet Local Area Network Diagram" width="500">
+</center>
 
 ## MRI scanner host computer
 
