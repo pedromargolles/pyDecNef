@@ -52,7 +52,7 @@ SPECIFICATIONS
 
 pyDecNef scripts are intended to be run in Python 3.6 or above using as minimum external libraries as possible and relying on [Python standard library](https://docs.python.org/3/library/) to maximize compatibility across Python versions. Python should be installed both in Server and Client computers.
 
-### Python dependencies
+### Python dependencies & neuroimage analysis software
 
 #### Global requirements
 
@@ -66,6 +66,7 @@ pyDecNef scripts are intended to be run in Python 3.6 or above using as minimum 
 - <a href="https://www.nitrc.org/plugins/mwiki/index.php/dcm2nii:MainPage" target="_blank">dcm2niix</a>
 - <a href="https://nipype.readthedocs.io/en/latest/" target="_blank">Nipype</a>
 - <a href="https://nilearn.github.io/stable/index.html" target="_blank">Nilearn</a>
+- <a href="https://surfer.nmr.mgh.harvard.edu/fswiki/DownloadAndInstall" target="_blank">Freesurfer</a>
 
 #### Decoding
 
