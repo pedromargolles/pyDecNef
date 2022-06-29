@@ -25,13 +25,15 @@ An ethernet local area network (LAN) needs to be wired between three computers:
 
 - The client computer which will be running the experimental presentation software, and presenting stimuli and feedback to participant in the MRI scanner.
 
-![Ethernet Local Area Network Diagram](/assets/images/ethernet_lan.png)
+![Ethernet Local Area Network Diagram](../../assets/images/ethernet_lan.png)
 
 ## MRI scanner host computer
 
-As stated in diagram above, MRI scanner host computer should be able to copy fMRI DICOM files into a specific Server's folder in real-time. Real-time processing scripts running in server computer include a watcher class, which will be in charge of looking at that folder to initialize volume preprocessing as fast a new volume is copied.
+As stated in diagram above, MRI scanner host computer should be able to copy in real-time functional DICOM files into a specific Server's folder. 
 
-Siemens and Prisma scanners host computers can use **ideacmdtool** in combination with FIRMM with that goal.
+Real-time processing scripts running in server computer include a watcher class, which will be in charge of looking at that folder to initialize volume preprocessing as fast a new volume is written out.
+
+With that goal, Siemens and Prisma scanners host computers can use *ideacmdtool* program in combination with FIRMM.
 
 - <a href="https://firmm.readthedocs.io/en/3.2/installation/" target="_blank">FIRMM</a>
 - <a href="https://firmm.readthedocs.io/en/3.2/siemens_ideacmdtool/" target="_blank">ideacmdtool</a>
