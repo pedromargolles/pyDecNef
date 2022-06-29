@@ -14,7 +14,7 @@ permalink: /
 
 ## About
 
-The pyDecNef library provides a complete framework to perform real-time fMRI decoded neurofeedback studies in an open programming language like Python.
+The pyDecNef library provides a complete and straightforward framework to perform real-time fMRI decoded neurofeedback studies in an open programming language like Python.
 
 From the creation of the working space, through the scripts for building the decoder and fMRI volumes pre-processing, to the scripts for neurofeedback training and data post-processing. 
 
