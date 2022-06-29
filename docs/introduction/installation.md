@@ -32,7 +32,7 @@ An ethernet local area network (LAN) needs to be wired between three computers:
 
 ## MRI scanner host computer
 
-As stated in diagram above, MRI scanner host computer should be able to copy in real-time functional DICOM files into a specific Server's folder. 
+MRI scanner host computer should be able to copy in real-time functional DICOM files into a specific Server's folder. 
 
 Real-time processing scripts running in server computer include a watcher class, which will be in charge of looking at that folder to initialize volume preprocessing as fast a new volume is written out.
 
@@ -47,7 +47,7 @@ With that goal, Siemens and Prisma scanners host computers can use *ideacmdtool*
 
 A computer with great performance and storage capabilities is recomended to play server's role as fMRI volumes will be collected and processed in real-time. Specifically, server computer should be able to perform volumes preprocessing and decoding in less than the selected fMRI repetition time (TR).
 
-pyDecNef real-time scripts has succesfully been used in a computer running CentOS operating system with following specifications:
+pyDecNef real-time scripts have succesfully been used in a computer running CentOS operating system with following specifications:
 
 SPECIFICATIONS
 
