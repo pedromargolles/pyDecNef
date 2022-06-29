@@ -4,7 +4,7 @@ title: Installation
 parent: Introduction
 ---
 
-# Requirements
+# Installation
 {: .no_toc }
 
 ## Table of contents
@@ -17,21 +17,31 @@ parent: Introduction
 
 ## Infrastructure
 
+An ethernet local area network (LAN) must be wired between three computers: 
+
+- MRI scanner host computer used to manage scanning sessions and MRI sequences configuration.
+
+- The server computer which will be running real-time preprocessing and decoding scripts
+
+- The client computer which will be running the experimental presentation software, and presenting stimuli and feedback to participant in the MRI scanner.
+
+![Ethernet Local Area Network Diagram](assets/images/ethernet_lan.png)
+
 INFRASTRUCTURE IMAGE
 
-## MRI scanner management computer
+## MRI scanner host computer
 - <a href="https://firmm.readthedocs.io/en/3.2/installation/" target="_blank">FIRMM</a>
 - <a href="https://firmm.readthedocs.io/en/3.2/siemens_ideacmdtool/" target="_blank">ideacmdtool</a>
 
 ## Python version
 
-pyDecNef scripts are intended to be run in Python 3.6 or above using as minimum external libraries as possible and relying on [Python standard library](https://docs.python.org/3/library/) to maximize compatibility across systems and Python versions.
+pyDecNef scripts are intended to be run in Python 3.6 or above using as minimum external libraries as possible and relying on [Python standard library](https://docs.python.org/3/library/) to maximize compatibility across Python versions. Python should be installed both in Server and Client computers.
 
-## fMRI volumes pre-processing and decoding computer (i.e., Server)
+## Server: fMRI volumes preprocessing and decoding computer
 
 ### System requirements
 
-A computer with great performance and storage capabilities is recomended to play server's role as fMRI volumes will be collected and processed in real-time. Specifically, server computer should be able to perform volumes pre-processing and decoding in less than the fMRI repetition time (TR).
+A computer with great performance and storage capabilities is recomended to play server's role as fMRI volumes will be collected and processed in real-time. Specifically, server computer should be able to perform volumes preprocessing and decoding in less than the selected fMRI repetition time (TR).
 
 pyDecNef real-time scripts has succesfully been used in a computer running CentOS operating system with following specifications:
 
@@ -63,7 +73,7 @@ SPECIFICATIONS
 - <a href="https://plotly.com/python/getting-started/" target="_blank">plotly</a>
 - <a href="https://dash.plotly.com/installation" target="_blank">Dash</a>
 
-## Experimental presentation computer (i.e., Client)
+## Client: Experimental presentation computer
 
 - <a href="https://osdoc.cogsci.nl/" target="_blank">Opensesame</a>
 - <a href="https://www.psychopy.org/" target="_blank">PsychoPy</a>
