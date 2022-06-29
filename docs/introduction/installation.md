@@ -39,10 +39,6 @@ With that goal, Siemens and Prisma scanners host computers can use *ideacmdtool*
 - <a href="https://firmm.readthedocs.io/en/3.2/installation/" target="_blank">FIRMM</a>
 - <a href="https://firmm.readthedocs.io/en/3.2/siemens_ideacmdtool/" target="_blank">ideacmdtool</a>
 
-## Python version
-
-pyDecNef scripts are intended to be run in Python 3.6 or above using as minimum external libraries as possible and relying on [Python standard library](https://docs.python.org/3/library/) to maximize compatibility across Python versions. Python should be installed both in Server and Client computers.
-
 ## Server: fMRI volumes preprocessing and decoding computer
 
 ### System requirements
@@ -53,12 +49,18 @@ pyDecNef real-time scripts has succesfully been used in a computer running CentO
 
 SPECIFICATIONS
 
-### Global requirements
+### Python version
+
+pyDecNef scripts are intended to be run in Python 3.6 or above using as minimum external libraries as possible and relying on [Python standard library](https://docs.python.org/3/library/) to maximize compatibility across Python versions. Python should be installed both in Server and Client computers.
+
+### Python dependencies
+
+#### Global requirements
 
 - <a href="https://numpy.org/" target="_blank">Numpy</a>
 - <a href="https://pandas.pydata.org/" target="_blank">Pandas</a>
 
-### Data pre-processing
+#### Data pre-processing
 
 - <a href="https://afni.nimh.nih.gov/pub/dist/doc/htmldoc/background_install/main_toc.html" target="_blank">AFNI</a>
 - <a href="https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/" target="_blank">FSL</a>
@@ -66,12 +68,12 @@ SPECIFICATIONS
 - <a href="https://nipype.readthedocs.io/en/latest/" target="_blank">Nipype</a>
 - <a href="https://nilearn.github.io/stable/index.html" target="_blank">Nilearn</a>
 
-### Decoding
+#### Decoding
 
 - <a href="https://scikit-learn.org/stable/" target="_blank">scikit-learn</a>
 - <a href="https://www.tensorflow.org/" target="_blank">Tensorflow</a>
 
-### Results visualization
+#### Results visualization
 
 - <a href="https://pypi.org/project/colorama/" target="_blank">Colorama</a>
 - <a href="https://matplotlib.org/" target="_blank">Matplotlib</a>
