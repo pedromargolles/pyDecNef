@@ -41,7 +41,7 @@ With that goal, Siemens and Prisma scanners host computers can use *ideacmdtool*
 - <a href="https://firmm.readthedocs.io/en/3.2/installation/" target="_blank">FIRMM</a>
 - <a href="https://firmm.readthedocs.io/en/3.2/siemens_ideacmdtool/" target="_blank">ideacmdtool</a>
 
-## Server: fMRI volumes preprocessing and decoding computer
+## Server: volumes preprocessing & decoding computer
 
 ### System requirements
 
@@ -55,22 +55,27 @@ SPECIFICATIONS
 
 RECOMENDACIÓN LINUX SEGÚN FIRMM Y AFNI, FSL...
 
+## Neuroimage analysis software
+
+To maximize preprocessing speed of fMRI volumes and at the same time keeping the versatilty which Python language provides to the researcher, pyDecNef makes use of specialized neuroimage analysis software written in C which is integrated within a single Python workflow by means of Nipype library.
+
+- <a href="https://afni.nimh.nih.gov/pub/dist/doc/htmldoc/background_install/main_toc.html" target="_blank">AFNI</a>
+- <a href="https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/" target="_blank">FSL</a>
+- <a href="https://www.nitrc.org/plugins/mwiki/index.php/dcm2nii:MainPage" target="_blank">dcm2niix</a>
+
 ### Python version
 
 pyDecNef scripts are intended to be run in Python 3.6 or above using as minimum external libraries as possible and relying on [Python standard library](https://docs.python.org/3/library/) to maximize compatibility across Python versions. Python should be installed both in Server and Client computers.
 
-### Python dependencies & neuroimage analysis software
+### Python dependencies
 
 #### Global requirements
 
 - <a href="https://numpy.org/" target="_blank">Numpy</a>
 - <a href="https://pandas.pydata.org/" target="_blank">Pandas</a>
 
-#### Data pre-processing
+#### Data preprocessing
 
-- <a href="https://afni.nimh.nih.gov/pub/dist/doc/htmldoc/background_install/main_toc.html" target="_blank">AFNI</a>
-- <a href="https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/" target="_blank">FSL</a>
-- <a href="https://www.nitrc.org/plugins/mwiki/index.php/dcm2nii:MainPage" target="_blank">dcm2niix</a>
 - <a href="https://nipype.readthedocs.io/en/latest/" target="_blank">Nipype</a>
 - <a href="https://nilearn.github.io/stable/index.html" target="_blank">Nilearn</a>
 
@@ -87,7 +92,7 @@ pyDecNef scripts are intended to be run in Python 3.6 or above using as minimum 
 - <a href="https://plotly.com/python/getting-started/" target="_blank">plotly</a>
 - <a href="https://dash.plotly.com/installation" target="_blank">Dash</a>
 
-## Client: Experimental presentation computer
+## Client: Experimental presentation
 
 - <a href="https://osdoc.cogsci.nl/" target="_blank">Opensesame</a>
 - <a href="https://www.psychopy.org/" target="_blank">PsychoPy</a>
