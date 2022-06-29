@@ -17,7 +17,7 @@ parent: Introduction
 
 ## Infrastructure
 
-An ethernet local area network (LAN) must be wired between three computers: 
+An ethernet local area network (LAN) needs to be wired between three computers: 
 
 - MRI scanner host computer used to manage scanning sessions and MRI sequences configuration.
 
@@ -26,8 +26,6 @@ An ethernet local area network (LAN) must be wired between three computers:
 - The client computer which will be running the experimental presentation software, and presenting stimuli and feedback to participant in the MRI scanner.
 
 ![Ethernet Local Area Network Diagram](assets/images/ethernet_lan.png)
-
-INFRASTRUCTURE IMAGE
 
 ## MRI scanner host computer
 - <a href="https://firmm.readthedocs.io/en/3.2/installation/" target="_blank">FIRMM</a>
