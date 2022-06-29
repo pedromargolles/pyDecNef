@@ -25,7 +25,7 @@ An ethernet local area network (LAN) needs to be wired between three computers:
 
 - The client computer which will be running the experimental presentation software, and presenting stimuli and feedback to participant in the MRI scanner.
 
-<center><img src="../../assets/images/ethernet_lan.png" alt="Ethernet Local Area Network Diagram"></center>
+<center><img src="../../assets/images/ethernet_lan.png" alt="Ethernet Local Area Network Diagram" width="500"></center>
 
 ## MRI scanner host computer
 
@@ -66,7 +66,6 @@ pyDecNef scripts are intended to be run in Python 3.6 or above using as minimum 
 - <a href="https://www.nitrc.org/plugins/mwiki/index.php/dcm2nii:MainPage" target="_blank">dcm2niix</a>
 - <a href="https://nipype.readthedocs.io/en/latest/" target="_blank">Nipype</a>
 - <a href="https://nilearn.github.io/stable/index.html" target="_blank">Nilearn</a>
-- <a href="https://surfer.nmr.mgh.harvard.edu/fswiki/DownloadAndInstall" target="_blank">Freesurfer</a>
 
 #### Decoding
 
