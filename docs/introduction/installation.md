@@ -26,7 +26,7 @@ An ethernet local area network (LAN) needs to be wired between three computers:
 - The client computer which will be running the experimental presentation software, and presenting stimuli and feedback to participant in the MRI scanner.
 
 <center>
-<p></p>
+<br>
 <img src="../../assets/images/ethernet_lan.png" alt="Ethernet Local Area Network Diagram" width="500">
 </center>
 
@@ -45,11 +45,15 @@ With that goal, Siemens and Prisma scanners host computers can use *ideacmdtool*
 
 ### System requirements
 
-A computer with great performance and storage capabilities is recomended to play server's role as fMRI volumes will be collected and processed in real-time. Specifically, server computer should be able to perform volumes preprocessing and decoding in less than the selected fMRI repetition time (TR).
+A computer with great performance and storage capabilities is recomended to play server's role as fMRI volumes will be collected and processed in real-time. 
+
+Specifically, server computer should be able to perform volumes preprocessing and decoding in less than the selected fMRI repetition time (TR).
 
 pyDecNef real-time scripts have succesfully been used in a computer running CentOS operating system with following specifications:
 
 SPECIFICATIONS
+
+RECOMENDACIÓN LINUX SEGÚN FIRMM Y AFNI, FSL...
 
 ### Python version
 
