@@ -34,7 +34,7 @@ An ethernet local area network (LAN) is required between three computers:
 
 ## MRI scanner
 
-While pyDecNef framework might work with any type of MRI scanner, as it does not rely on any specific brand functionality, the integration with *<a href="https://firmm.readthedocs.io/en/3.2/installation/" target="_blank">FIRMM</a>* software required to transfer volumes from MRI scanner host computer to the server computer works better with Siemens or GE scanner models.
+While pyDecNef framework might work with any type of MRI scanner, as it does not rely on any specific brand functionality, the integration with <a href="https://firmm.readthedocs.io/en/3.2/installation/" target="_blank">FIRMM</a> software required to transfer volumes from MRI scanner host computer to the server computer works better with Siemens or GE scanner models.
 
 ## MRI scanner host computer
 
@@ -42,7 +42,7 @@ As suggested, MRI scanner host computer needs to be configured to copy in real-t
 
 Real-time processing scripts running in server computer include a watcher class, which will be in charge of looking at that folder to initialize volume preprocessing as fast a new volume is written out.
 
-With that goal, Siemens Trio and Prisma scanners host computers can use *<a href="https://firmm.readthedocs.io/en/3.2/siemens_ideacmdtool/" target="_blank">ideacmdtool</a>* program in combination with <a href="https://firmm.readthedocs.io/en/3.2/installation/" target="_blank">FIRMM</a>) software, while GE scanners can make use *rsync* protocol.
+With that goal, Siemens Trio and Prisma scanners host computers can use <a href="https://firmm.readthedocs.io/en/3.2/siemens_ideacmdtool/" target="_blank">ideacmdtool</a> program in combination with <a href="https://firmm.readthedocs.io/en/3.2/installation/" target="_blank">FIRMM</a>) software, while GE scanners can make use *rsync* protocol.
 
 - <a href="https://firmm.readthedocs.io/en/3.2/siemens_ideacmdtool/" target="_blank">Using ideacmdtool + FIRMM with SIEMENS scanners</a>
 
@@ -56,7 +56,7 @@ A computer with great performance and storage capabilities is recomended to play
 
 Specifically, the server computer requires to perform volumes preprocessing and decoding in less than the selected fMRI repetition time (TR).
 
-Ideally server computer should use a Linux system as Debian/Ubuntu 16+ or Redhat/CentOS 7+ to be able to run either *Docker* or *Singularity* for <a href="https://firmm.readthedocs.io/en/3.2/installation/" target="_blank">FIRMM</a> software and either *samba* or *rsync* protocols for DICOM transfer.
+Ideally server computer should use a Linux system as Debian/Ubuntu 16+ or Redhat/CentOS 7+ to be able to run either Docker or *Singularity for <a href="https://firmm.readthedocs.io/en/3.2/installation/" target="_blank">FIRMM</a> software and either samba or rsync protocols for DICOM transfer.
 
 pyDecNef real-time scripts have succesfully been used in a computer running CentOS Linux 7 operating system with following specifications:
 
@@ -69,7 +69,7 @@ pyDecNef real-time scripts have succesfully been used in a computer running Cent
 
 ## FIRMM
 
-<a href="https://firmm.readthedocs.io/en/3.2/installation/" target="_blank">FIRMM version 2.1 or greater</a> needs to be installed in the server computer to receive fMRI volumes from MRI scanner host computer by means of *samba* or *rsync* transfer methods as a function MRI scanner is Siemens or GE respectively.
+FIRMM version 2.1 or greater needs to be installed in the server computer to receive fMRI volumes from MRI scanner host computer by means of samba or rsync transfer methods as a function MRI scanner is Siemens or GE respectively.
 
 - <a href="https://firmm.readthedocs.io/en/3.2/installation/" target="_blank">FIRMM installation</a>
 
@@ -84,7 +84,7 @@ To maximize preprocessing speed of fMRI volumes and keep the versatilty which Py
 
 ### Python version
 
-pyDecNef scripts are intended to be run in Python 3.6 or above using as minimum external libraries as possible and relying on [Python standard library](https://docs.python.org/3/library/) to maximize compatibility across Python versions. Python should be installed both in server and client computers.
+pyDecNef scripts are intended to be run in Python 3.6 or above using as minimum external libraries as possible and relying on <a href="https://docs.python.org/3/library/" target="_blank">Python standard library</a> to maximize compatibility across Python versions. Python should be installed both in server and client computers.
 
 ### Python dependencies
 
