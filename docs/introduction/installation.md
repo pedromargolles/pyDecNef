@@ -32,11 +32,11 @@ An ethernet local area network (LAN) is required between three computers:
 
 ## MRI scanner
 
-While pyDecNef framework might work with any type of MRI scanner as it does not rely on any specific brand functionality, the integration with <a href="https://firmm.readthedocs.io/en/3.2/installation/" target="_blank">Framewise Integrated Real-time MRI Monitoring (FIRMM)</a>) software required to transfer volumes from MRI scanner host computer to server computer works better with Siemens or GE scanner models.
+While pyDecNef framework might work with any type of MRI scanner as it does not rely on any specific brand functionality, the integration with *<a href="https://firmm.readthedocs.io/en/3.2/installation/" target="_blank">Framewise Integrated Real-time MRI Monitoring (FIRMM)</a>* software required to transfer volumes from MRI scanner host computer to server computer works better with Siemens or GE scanner models.
 
 ## MRI scanner host computer
 
-MRI scanner host computer needs to be configured to be able to copy in real-time functional DICOM files into a specific Server's folder. 
+MRI scanner host computer needs to be configured to copy in real-time functional DICOM files into a specific server computer folder. 
 
 Real-time processing scripts running in server computer include a watcher class, which will be in charge of looking at that folder to initialize volume preprocessing as fast a new volume is written out.
 
