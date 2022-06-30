@@ -21,9 +21,9 @@ An ethernet local area network (LAN) is required between three computers:
 
 - MRI scanner host computer used to manage scanning sessions and MRI sequence configuration.
 
-- The server computer which will be running real-time volumes preprocessing and decoding scripts
+- The server computer which will be running real-time volumes preprocessing and decoding scripts.
 
-- The client computer running the experimental software and presenting stimuli and feedback to participant in the MRI scanner.
+- The client computer running the experimental software, and presenting stimuli and feedback to participant in the MRI scanner.
 
 <center>
 <br>
