@@ -42,7 +42,7 @@ As suggested, MRI scanner host computer needs to be configured to copy in real-t
 
 Real-time processing scripts running in server computer include a watcher class, which will be in charge of looking at that folder to initialize volume preprocessing as fast a new volume is written out.
 
-With that goal, Siemens Trio and Prisma scanners host computers can use ideacmdtool program in combination with FIRMM software, while GE scanners can make use *rsync* protocol.
+With that goal, Siemens Trio and Prisma scanners host computers can use ideacmdtool program in combination with FIRMM software, while GE scanners can make use rsync protocol.
 
 - <a href="https://firmm.readthedocs.io/en/3.2/siemens_ideacmdtool/" target="_blank">Using ideacmdtool + FIRMM with SIEMENS scanners</a>
 
@@ -67,45 +67,46 @@ pyDecNef real-time scripts have succesfully been used in a computer running Cent
     OS type: 64-bit
     Disk: 2.0TB
 
-## FIRMM
+### FIRMM
 
 FIRMM version 2.1 or greater needs to be installed in the server computer to receive fMRI volumes from MRI scanner host computer by means of samba or rsync transfer methods as a function MRI scanner is Siemens or GE respectively.
 
 - <a href="https://firmm.readthedocs.io/en/3.2/installation/" target="_blank">FIRMM installation</a>
 
-## Neuroimage analysis software
+### Neuroimage analysis software
 
 To maximize preprocessing speed of fMRI volumes and keep the versatilty which Python language provides to the researcher, pyDecNef makes use of several specialized neuroimage analysis software written in C which are then integrated within a single Python workflow by means of Nipype library.
 
 - <a href="https://afni.nimh.nih.gov/pub/dist/doc/htmldoc/background_install/main_toc.html" target="_blank">AFNI installation</a>
 - <a href="https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FslInstallation" target="_blank">FSL installation</a>
-- <a href="https://surfer.nmr.mgh.harvard.edu/fswiki/DownloadAndInstall" target="_blank">Freesurfer installation</a>
 - <a href="https://www.nitrc.org/plugins/mwiki/index.php/dcm2nii:MainPage" target="_blank">dcm2niix installation</a>
 
-## Python
+### Python
 
-### Python version
+#### Python version
 
-pyDecNef scripts are intended to be run in Python 3.6 or above using as minimum external libraries as possible and relying on Python standard library to maximize compatibility across Python versions. Python should be installed both in server and client computers.
+pyDecNef scripts are intended to be run in Python 3.6 or above using as minimum external libraries as possible and relying on Python standard library to maximize compatibility across Python versions. 
 
-### Python dependencies
+Python should be installed both in server and client computers.
 
-#### Global requirements
+#### Python dependencies
+
+##### Global requirements
 
 - <a href="https://numpy.org/" target="_blank">Numpy</a>
 - <a href="https://pandas.pydata.org/" target="_blank">Pandas</a>
 
-#### Data preprocessing
+##### Data preprocessing
 
 - <a href="https://nipype.readthedocs.io/en/latest/" target="_blank">Nipype</a>
 - <a href="https://nilearn.github.io/stable/index.html" target="_blank">Nilearn</a>
 
-#### Decoding
+##### Decoding
 
 - <a href="https://scikit-learn.org/stable/" target="_blank">scikit-learn</a>
 - <a href="https://www.tensorflow.org/" target="_blank">Tensorflow</a>
 
-#### Results visualization
+##### Results visualization
 
 - <a href="https://pypi.org/project/colorama/" target="_blank">Colorama</a>
 - <a href="https://matplotlib.org/" target="_blank">Matplotlib</a>
@@ -119,3 +120,14 @@ For experimental development and presentation of stimuli to the participant, cro
 
 - <a href="https://osdoc.cogsci.nl/3.3/download/" target="_blank">Opensesame installation</a>
 - <a href="https://www.psychopy.org/download.html" target="_blank">PsychoPy installation</a>
+
+## Decoder construction & postprocessing computer
+
+System used to run decoder construction session & postprocessing scripts requires the same software and python dependencies as server computer (except for FIRMM software). 
+
+Decoder construction session pipeline was built to maximize its similarity to neurofeedback training pipeline and avoid confusion factors.
+
+Additionally other neuroimage analysis software and python libraries are recommended:
+
+- <a href="https://surfer.nmr.mgh.harvard.edu/fswiki/DownloadAndInstall" target="_blank">Freesurfer installation</a>
+- <a href="https://brainiak.org/" target="_blank">Brainiak installation</a>
