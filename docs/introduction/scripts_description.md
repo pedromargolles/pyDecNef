@@ -32,21 +32,21 @@ Contains Python scripts required by server computer to perform fMRI volumes prep
 *main.py* - Integrates config, classes and pipelines modules together.
 
 ##### Config module
-
+<br>
 *modules/config/connection_config.py* - rver computer
-
+<br>
 *modules/config/exp_config.py* - rver computer
-
+<br>
 *modules/config/listener.py* - rver computer
-
+<br>
 *modules/config/shared_instances.py* - rver computer
 
 ##### Classes module
-
+<br>
 *modules/classes/classes.py* - rver computer
 
 ##### Pipelines module
-
+<br>
 *modules/pipelines/corregistration_pipeline.py* - rver computer
 
 *modules/pipelines/preproc_vol_to_timeseries_pipeline.py* - rver computer
