@@ -32,8 +32,6 @@ To access this framework scripts visit its [Github repository](https://github.co
 uires n
 </div>
 
-## 
-
 ## License
 
 pyDecNef is © 2021-2022 by Pedro Margolles & David Soto.
@@ -44,6 +42,6 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 
 Permissions of this strong copyleft license are conditioned on making available complete source code of licensed works and modifications, which include larger works using a licensed work, under the same license. Copyright and license notices must be preserved. Contributors provide an express grant of patent rights.
 
-# Acknowledgements
+## Acknowledgements
 
 Acknowledgements

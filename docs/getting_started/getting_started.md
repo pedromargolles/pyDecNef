@@ -6,7 +6,7 @@ has_children: true
 permalink: docs/getting_started
 ---
 
-# Installation
+# Introduction
 {: .no_toc }
 
 ## Table of contents
@@ -17,8 +17,34 @@ permalink: docs/getting_started
 
 ---
 
-## Infrastructure
+## What is fMRI decoded neurofeedback (DecNef)?
 
-An ethernet local area network (LAN) is required between three computers: 
+An ethe
 
-- MRI scanner ho
+### Univariate vs. multivariate approach
+
+An ethe
+
+### Basic assumptions
+
+An ethe
+
+### Types of fMRI DecNef experiments
+
+An ethe
+
+### DecNef advantages and limitations
+
+An ethe
+
+## A standard DecNef experiment
+
+network
+
+## Why pyDecNef framework?
+
+network
+
+## What can be built with pyDecNef framework?
+
+network

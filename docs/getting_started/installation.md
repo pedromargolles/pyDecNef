@@ -18,7 +18,7 @@ parent: Getting started
 
 ## Infrastructure
 
-An ethernet local area network (LAN) is required between three computers: 
+First, an ethernet local area network (LAN) is required between three computers: 
 
 - MRI scanner host computer used to manage scanning sessions and MRI sequences configuration.
 
