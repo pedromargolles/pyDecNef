@@ -29,9 +29,9 @@ To fill
 
 Contains Python scripts required by server computer to perform fMRI volumes preprocessing and decoding analysis in real-time. This scripts are intended to be run in parallel to experimental design files in 2.experimental_paradigm folder.
 
-main.py - rver computer
+*main.py* - Integrates config, classes and pipelines modules together.
 
-#### Config module
+##### Config module
 
 *modules/config/connection_config.py* - rver computer
 
@@ -41,11 +41,11 @@ main.py - rver computer
 
 *modules/config/shared_instances.py* - rver computer
 
-#### Classes module
+##### Classes module
 
 *modules/classes/classes.py* - rver computer
 
-#### Pipelines module
+##### Pipelines module
 
 *modules/pipelines/corregistration_pipeline.py* - rver computer
 
