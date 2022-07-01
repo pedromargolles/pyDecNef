@@ -71,10 +71,12 @@ Contains 3 different pipelines to decode neurofeedback training trials and volum
 
 ### 2.experimental_paradigm
 
-Contain example static and dynamic neurofeedback paradigms for Opensesame/Psychopy software which can be adapted for 
+Contain example static and dynamic neurofeedback paradigms for Opensesame/Psychopy software which can be readapted for your experimental purposes.
 
 ### 3.fMRI_simulator_realdata
 
 ##### generate.py
 
-It simulates a fMRI scanner working in real-time. Serves to off-line test decoded neurofeedback experimental paradigm and accurate synchronization between scripts from *1.realtime_fMRI_scripts* and *2.experimenta_paradigm* folders using previous sessions RAW volumes from a specific participant (ex., from decoder construction session).
+It simulates a fMRI scanner working in real-time. 
+
+Serves to off-line test your decoded neurofeedback experimental paradigm and an accurate synchronization between scripts from *1.realtime_fMRI_scripts* and *2.experimenta_paradigm* folders using previous sessions RAW volumes from a specific participant (ex., from decoder construction session).
