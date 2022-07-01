@@ -8,7 +8,7 @@ permalink: /
 
 ![pyDecNef logo](/assets/images/wide_logo2.png)
   
-[Get started now](https://pedromargolles.github.io/pyDecNef/docs/introduction){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 } [View it on GitHub](https://github.com/pedromargolles/pyDecNef){: .btn .fs-5 .mb-4 .mb-md-0 }
+[Get started now](https://pedromargolles.github.io/pyDecNef/docs/getting_started){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 } [View it on GitHub](https://github.com/pedromargolles/pyDecNef){: .btn .fs-5 .mb-4 .mb-md-0 }
 
 ---
 
@@ -38,7 +38,7 @@ pyDecNef is © 2021-2022 by Pedro Margolles & David Soto.
 
 This program is free software: you can redistribute it and/or modify it under the terms of the [GNU General Public License version 3](https://github.com/pedromargolles/pyDecNef/blob/main/LICENSE) as published by the Free Software Foundation.
 
-This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+This program is distributed in the hope that it will be useful, but without any warranty; without even the implied warranty of merchantability or fitness for a particular purpose. See the GNU General Public License for more details.
 
 Permissions of this strong copyleft license are conditioned on making available complete source code of licensed works and modifications, which include larger works using a licensed work, under the same license. Copyright and license notices must be preserved. Contributors provide an express grant of patent rights.
 
