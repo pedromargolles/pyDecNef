@@ -28,7 +28,7 @@ An ethernet local area network (LAN) is required between three computers:
 
 <center>
 <br>
-<img src="../assets/images/ethernet_lan.png" alt="Ethernet Local Area Network Diagram" width="500">
+<img src="../../assets/images/ethernet_lan.png" alt="Ethernet Local Area Network Diagram" width="500">
 </center>
 
 ## MRI scanner
