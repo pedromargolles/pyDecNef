@@ -19,39 +19,39 @@ permalink: docs/scripts-description
 
 pyDecNef library provides a complete framework to perform decoded neurofeedback studies. pyDecNef scripts repository can be accessed [through this link](https://github.com/pedromargolles/pyDecNef). Below are depicted pyDecNef scripts functionality and purpose by each repository folder. 
 
-## Model construction folder (1.model_construction):
+## Model construction (1.model_construction):
 
 To fill
 
-## Neurofeedback training folder (2.neurofeedback_training):
+## Neurofeedback training (2.neurofeedback_training):
 
 ### 1.realtime_fMRI_scripts
 
 Contains Python scripts required by server computer to perform fMRI volumes preprocessing and decoding analysis in real-time. This scripts are intended to be run in parallel to experimental design files in 2.experimental_paradigm folder.
 
-**main.py** - rver computer
+main.py - rver computer
 
 #### Config module
 
-**modules/config/connection_config.py** - rver computer
+*modules/config/connection_config.py* - rver computer
 
-**modules/config/exp_config.py** - rver computer
+*modules/config/exp_config.py* - rver computer
 
-**modules/config/listener.py** - rver computer
+*modules/config/listener.py* - rver computer
 
-**modules/config/shared_instances.py** - rver computer
+*modules/config/shared_instances.py* - rver computer
 
 #### Classes module
 
-**modules/classes/classes.py** - rver computer
+*modules/classes/classes.py* - rver computer
 
 #### Pipelines module
 
-**modules/pipelines/corregistration_pipeline.py** - rver computer
+*modules/pipelines/corregistration_pipeline.py* - rver computer
 
-**modules/pipelines/preproc_vol_to_timeseries_pipeline.py** - rver computer
+*modules/pipelines/preproc_vol_to_timeseries_pipeline.py* - rver computer
 
-**modules/pipelines/trial_decoding_pipeline.py** - rver computer
+*modules/pipelines/trial_decoding_pipeline.py* - rver computer
 
 ### 2.experimental_paradigm
 
@@ -59,7 +59,7 @@ Contain
 
 ### 3.fMRI_simulator_realdata
 
-**generate.py** - rver computer
+*generate.py* - rver computer
 
 ## Postprocessing scripts (3.postprocessing):
 
