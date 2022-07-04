@@ -4,10 +4,10 @@ description: "A Python framework for real-time fMRI decoded neurofeedback"
 remote_theme: just-the-docs/just-the-docs
 
 # Set logo
-logo: "/assets/images/logo.png"
+logo: /assets/images/logo.png
 
 # Set favicon
-favicon: "/assets/images/favicon.ico"
+favicon: /assets/images/favicon.ico
 
 # Aux links for the upper right navigation
 aux_links:
@@ -30,4 +30,4 @@ defaults:
   - scope:
       path: ""
     values:
-      image: "/assets/images/social_card.png"
+      image: /assets/images/social_card.png
