@@ -1,8 +1,10 @@
 title: "pyDecNef"
-tagline: "Decoded Neurofeedback with Python"
+tagline: "fMRI Decoded Neurofeedback with Python"
 description: "A Python framework for real-time fMRI decoded neurofeedback"
 remote_theme: just-the-docs/just-the-docs
-
+author:
+  name: pedromargolles
+  
 # Set logo
 logo: /assets/images/logo.png
 
