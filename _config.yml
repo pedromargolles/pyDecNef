@@ -22,6 +22,10 @@ color_scheme: decnef_color
 # Makes Aux links open in a new tab
 aux_links_new_tab: true
 
+# Back to top link
+back_to_top: true
+back_to_top_text: "Back to top"
+
 # SEO
 twitter:
   username: pedromargolles
