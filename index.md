@@ -18,7 +18,7 @@ The pyDecNef library provides a complete and straightforward framework to perfor
 
 From the creation of the working space, through the scripts for building the decoder and fMRI volumes pre-processing, to the scripts for neurofeedback training and data post-processing. 
 
-In addition, introductory tutorials on the neurofeedback decoding technique and advanced use of the pyDecNef pipeline are provided.
+In addition, introductory tutorials on the decoded neurofeedback technique and advanced use of the pyDecNef pipeline are provided.
 
 Although this library, as it is, is oriented to the development of classical decoded neurofeedback studies, it can be easily customized for the execution of other types of real-time brain-computer interface studies.
 
