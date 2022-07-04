@@ -1,8 +1,9 @@
 ---
 layout: default
 title: Scripts description
-nav_order: 1
-parent: Getting started
+nav_order: 3
+has_children: false
+permalink: docs/scripts_description
 ---
 
 # Scripts description
