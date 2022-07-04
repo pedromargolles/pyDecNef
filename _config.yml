@@ -1,6 +1,6 @@
 title: "pyDecNef"
 tagline: "fMRI Decoded Neurofeedback with Python"
-description: "A Python framework for real-time fMRI decoded neurofeedback"
+description: "The pyDecNef library provides a complete framework to perform real-time fMRI decoded neurofeedback studies in Python."
 remote_theme: just-the-docs/just-the-docs
 author:
   name: pedromargolles
