@@ -1,22 +1,20 @@
 ############################################################################
 # AUTHORS: Pedro Margolles & David Soto
 # EMAIL: pmargolles@bcbl.eu, dsoto@bcbl.eu
-# COPYRIGHT: Copyright (C) 2021, Python fMRI-Neurofeedback
+# COPYRIGHT: Copyright (C) 2021-2022, pyDecNef
+# URL: https://pedromargolles.github.io/pyDecNef/
 # INSTITUTION: Basque Center on Cognition, Brain and Language (BCBL), Spain
-# LICENCE: 
+# LICENCE: GNU General Public License v3.0
 ############################################################################
 
 from modules.config import shared_instances
 from modules.config.exp_config import Exp
 from modules.pipelines.corregistration_pipeline import corregister_vol
-from modules.pipelines.preproc_vol_to_timeseries_pipeline import preproc_vol_to_timeseries
-from modules.pipelines.trial_decoding_pipeline import decode_trial
+from modules.pipelines.preproc_vol_to_timeseries_pipeline import preproc_to_baseline, preproc_to_timeseries, preproc_to_model_session
+from modules.pipelines.trial_decoding_pipeline import average_hrf_peak_vols_decoding, average_probs_decoding, dynamic_decoding
 from modules.config import shared_instances
 from colorama import init, Fore
 import numpy as np
-import matplotlib
-matplotlib.use('TkAgg')
-import matplotlib.pyplot as plt
 import pandas as pd
 from pathlib import Path
 import pickle
@@ -87,19 +85,32 @@ class Vol(Exp):
 # and baseline
 
 class Timeseries(Exp):
-    heatup_vols = np.array([]) # Array to store all masked heatup volumes
-    baseline_vols = np.array([]) # Array to store all masked baseline volumes
-    task_vols = np.array([]) # Array to store all masked task volumes
-    whole_timeseries = np.array([]) # Array to store all masked baseline + task volumes
+    heatup_vols = np.array([]) # Array to store all masked and unpreprocessed heatup volumes
+    baseline_vols = np.array([]) # Array to store all masked and unpreprocessed baseline volumes
+    task_vols = np.array([]) # Array to store all masked and unpreprocessed task volumes
+    whole_timeseries = np.array([]) # Array to store all masked and unpreprocessed baseline + task volumes
 
     def preproc_vol_2_timeseries(self, vol):
         self._append_vol(vol) # First, assign this volume to a specific timeseries array (i.e., baseline_vols, task_vols and/or whole_timeseries)
+        
         if vol.vol_type == 'task': # Initialize task volumes preprocessing using whole timeseries once baseline ends
-            vol.data, vol.preproc_vol_to_timeseries_times = preproc_vol_to_timeseries(self.whole_timeseries, # All baseline + task volumes
-                                                                                      self.baseline_vols, # Baseline volumes
-                                                                                      self.preprocessed_dir # Preprocessed volumes output folder
-                                                                                     )
-    
+            
+            if self.zscoring_procedure == 'to_baseline':
+                vol.data, vol.preproc_vol_to_timeseries_time = preproc_to_baseline(whole_timeseries = self.whole_timeseries, # Unpreprocessed timeseries to last arrived volume
+                                                                                   baseline_vols = self.baseline_vols, # Unpreprocessed baseline vols 
+                                                                                   preprocessed_dir = self.preprocessed_dir, # Preprocessed volumes folder
+                                                                                  )
+
+            elif self.zscoring_procedure == 'to_timeseries':
+                vol.data, vol.preproc_vol_to_timeseries_time = preproc_to_timeseries(whole_timeseries = self.whole_timeseries, # Unpreprocessed timeseries to last arrived volume
+                                                                                    )
+            
+            elif self.zscoring_procedure == 'to_model_session':
+                vol.data, vol.preproc_vol_to_timeseries_time = preproc_to_model_session(whole_timeseries = self.whole_timeseries, # Unpreprocessed timeseries to last arrived volume
+                                                                                        zscoring_mean = self.zscoring_mean,  # Numpy array containing mean of model construction session data
+                                                                                        zscoring_std = self.zscoring_std # Numpy array containing standard deviation of model construction session data
+                                                                                       )
+
     def _append_vol(self, vol):
 
         """ Stack new masked volume onto baseline_vols, task_vols or whole_timeseries arrays """
@@ -111,25 +122,25 @@ class Timeseries(Exp):
             if timeseries_array.shape[0] == 0: # If timeseries array is empty, substitute it with the first masked volume array
                 timeseries_array = vol
             else:
-                timeseries_array = np.vstack([timeseries_array, vol]) # If timeseries array is not empty then stack new masked volume array on top
+                timeseries_array = np.vstack([timeseries_array, vol]) # If timeseries array is not empty then stack new masked and unpreprocessed volume array on top
             return timeseries_array
 
         if vol.vol_type == 'heatup':
             pass
 
         elif vol.vol_type == 'baseline':
-            self.baseline_vols = vol_to_array(self.baseline_vols, vol.data) # Append to baseline timeseries array
-            np.save(Path(self.preprocessed_dir) / 'baseline.npy', self.baseline_vols) # Store baseline timeseries
+            self.baseline_vols = vol_to_array(self.baseline_vols, vol.data) # Append to unpreprocessed baseline timeseries array
+            np.save(Path(self.preprocessed_dir) / 'unpreprocessed_baseline.npy', self.baseline_vols) # Store baseline timeseries
 
             self.whole_timeseries = vol_to_array(self.whole_timeseries, vol.data) # Append to baseline + task volumes timeseries array
-            np.save(Path(self.preprocessed_dir) / 'whole_timeseries.npy', self.whole_timeseries) # Store baseline + task volumes timeseries
+            np.save(Path(self.preprocessed_dir) / 'unpreprocessed_whole_timeseries.npy', self.whole_timeseries) # Store baseline + task volumes timeseries
 
         elif vol.vol_type == 'task':
-            self.task_vols = vol_to_array(self.task_vols, vol.data) # Append to task timeseries array
-            np.save(Path(self.preprocessed_dir) / 'task_vols.npy', self.task_vols) # Store task timeseries
+            self.task_vols = vol_to_array(self.task_vols, vol.data) # Append to unpreprocessed task timeseries array
+            np.save(Path(self.preprocessed_dir) / 'unpreprocessed_task_vols.npy', self.task_vols) # Store task timeseries
 
-            self.whole_timeseries = vol_to_array(self.whole_timeseries, vol.data) # Append to baseline + task volumes timeseries array
-            np.save(Path(self.preprocessed_dir) / 'whole_timeseries.npy', self.whole_timeseries) # Store baseline + task volumes timeseries
+            self.whole_timeseries = vol_to_array(self.whole_timeseries, vol.data) # Append to unpreprocessed baseline + task volumes timeseries array
+            np.save(Path(self.preprocessed_dir) / 'unpreprocessed_whole_timeseries.npy', self.whole_timeseries) # Store baseline + task volumes timeseries
 
         else:
             print(Fore.RED + 'Volume type is not defined.')
@@ -186,30 +197,52 @@ class Trial(Exp):
 
         shared_instances.logger.add_vol(vol)        
 
+
     def _decode(self):
 
-        if (self.decoding_procedure == 'average_probs') or (self.decoding_procedure == 'average_hrf_peak_vols'):
+        if self.decoding_procedure == 'average_probs':
             while (self.HRF_peak_end == False) or (self.HRF_peak_vols[-1].prepared_4_decoding == False): # If decoding signal is received before HRF peak ends or last HRF peak vol is prepared 
                                                                                                          # for decoding, just wait until these conditions happen to start decoding volumes
                 time.sleep(0.1) # Just wait until while loop condition is False refreshing var status each 100 ms to avoid cannibalization of system processing resources
 
-            trial_decoding_prob, vols_decoding_probs, trial_decoding_time = decode_trial(this_trial = self, # This trial object
-                                                                                         model_file = self.model_file, # Pre-trained decoder
-                                                                                         ground_truth = self.ground_truth, # Ground truth label to select target decoding probability (ex., 0, 1, 2...)
-                                                                                         decoding_procedure = self.decoding_procedure # Decoding procedure
-                                                                                        )
-
-            self.decoding_prob = trial_decoding_prob
-            self.decoding_time = trial_decoding_time
-
-            if vols_decoding_probs is not None:
-                for vol, vol_decoding_prob in zip(self.HRF_peak_vols, vols_decoding_probs):
-                    vol.decoding_prob = vol_decoding_prob
-                    shared_instances.logger.update_vol(vol)
-
-            shared_instances.server.send(self.decoding_prob) # Send back decoding probability to client side with server object from main.py
+            preproc_vols_data = [vol.data for vol in self.HRF_peak_vols] # Get data arrays from every volume within HRF peak
+            trial_decoding_prob, vols_decoding_probs, trial_decoding_time = average_probs_decoding(preproc_vols_data = preproc_vols_data, # Masked and preprocessed volumes in HRF peak (list of numpy arrays. Each array has following dimensions: 1, n_voxels)
+                                                                                                   model_file = self.model_file, # Pre-trained decoder
+                                                                                                   ground_truth = self.ground_truth, # Ground truth label to select target decoding probability (ex., 0, 1, 2...)
+                                                                                                  )
+            
+            shared_instances.server.send(trial_decoding_prob) # Send back decoding probability to client side with server object from main.py
             time.sleep(0.05) # Wait some miliseconds after sending decoding_prob. In that way, different signals will not be sent in the same package of data
+
+            self.decoding_prob = trial_decoding_prob # Assign trial_decoding_prob to this trial
+            self.decoding_time = trial_decoding_time  # Assign trial_decoding_time to this trial
+
+            for vol, vol_decoding_prob in zip(self.HRF_peak_vols, vols_decoding_probs): # Update HRF peak volumes objects with decoding information
+                vol.decoding_prob = vol_decoding_prob
+                shared_instances.logger.update_vol(vol)
+
             self.decoding_done = True # Update trial status to trigger feedback finalization
+
+
+        elif self.decoding_procedure == 'average_hrf_peak_vols':
+            while (self.HRF_peak_end == False) or (self.HRF_peak_vols[-1].prepared_4_decoding == False): # If decoding signal is received before HRF peak ends or last HRF peak vol is prepared 
+                                                                                                         # for decoding, just wait until these conditions happen to start decoding volumes
+                time.sleep(0.1) # Just wait until while loop condition is False refreshing var status each 100 ms to avoid cannibalization of system processing resources
+
+            preproc_vols_data = [vol.data for vol in self.HRF_peak_vols] # Get data arrays from every volume within HRF peak
+            trial_decoding_prob, trial_decoding_time = average_hrf_peak_vols_decoding(preproc_vols_data = preproc_vols_data, # Masked and preprocessed volumes in HRF peak (list of numpy arrays. Each array has following dimensions: 1, n_voxels)
+                                                                                      model_file = self.model_file, # Pre-trained decoder
+                                                                                      ground_truth = self.ground_truth, # Ground truth label to select target decoding probability (ex., 0, 1, 2...)
+                                                                                     )
+
+            shared_instances.server.send(trial_decoding_prob) # Send back decoding probability to client side with server object from main.py
+            time.sleep(0.05) # Wait some miliseconds after sending decoding_prob. In that way, different signals will not be sent in the same package of data
+
+            self.decoding_prob = trial_decoding_prob # Assign trial_decoding_prob to this trial
+            self.decoding_time = trial_decoding_time  # Assign trial_decoding_time to this trial
+
+            self.decoding_done = True # Update trial status to trigger feedback finalization
+
 
         elif self.decoding_procedure == 'dynamic':
             last_decoded_vol = None # Keep track of last decoded volume instance
@@ -219,21 +252,22 @@ class Trial(Exp):
                     if id(last_decoded_vol) != id(self.HRF_peak_vols[-1]): # If a new preprocessed and non decoded vol is detected within 
                                                                            # HRF_peak_vols (i.e., different id from last decoded volume)
 
-                        vol_decoding_prob, vol_decoding_time = decode_trial(this_trial = self, # This trial object
-                                                                    model_file = self.model_file, # Pre-trained decoder
-                                                                    ground_truth = self.ground_truth, # Ground truth label to select target decoding probability (ex., 0, 1, 2...)
-                                                                    decoding_procedure = self.decoding_procedure # Decoding procedure
-                                                                    )
-                        
-                        self.HRF_peak_vols[-1].decoding_prob = vol_decoding_prob # Assign decoding probability to last decoded volume
-                        self.HRF_peak_vols[-1].decoding_time = vol_decoding_time # Assign decoding time to last decoded volume
-                        
-                        shared_instances.logger.update_vol(self.HRF_peak_vols[-1])
+                        last_vol = self.HRF_peak_vols[-1] # Get data array from last volume within HRF peak
 
-                        last_decoded_vol = self.HRF_peak_vols[-1] # Set this new detected volume as last_decoded_vol to know whether it was already decoded
-
-                        shared_instances.server.send(self.decoding_prob) # Send back decoding probability to client side with server object from main.py
+                        vol_decoding_prob, vol_decoding_time = dynamic_decoding(last_vol.data, # Last preprocessed volume within HRF peak array data
+                                                                                self.model_file, # Pre-trained decoder
+                                                                                self.ground_truth # Ground truth label to select target decoding probability (ex., 0, 1, 2...)
+                                                                               )
+                        
+                        shared_instances.server.send(vol_decoding_prob) # Send back decoding probability to client side with server object from main.py
                         time.sleep(0.05) # Wait some miliseconds after sending decoding_prob. In that way, different signals will not be sent in the same package of data
+
+                        last_vol.decoding_prob = vol_decoding_prob # Assign decoding probability to last decoded volume
+                        last_vol.decoding_time = vol_decoding_time # Assign decoding time to last decoded volume
+                        
+                        shared_instances.logger.update_vol(last_vol) # Tell logger to update last volume information
+                        
+                        last_decoded_vol = last_vol # Set this new detected volume as last_decoded_vol to know whether it was already decoded
 
                     elif id(last_decoded_vol) == id(self.HRF_peak_vols[-1]): # If last_decoded_vol is not a new preprocessed and non decoded volume in this while loop iteration (i.e., has the same id of last decoded volume)
                         time.sleep(0.1) # Just wait until while loop condition is False, refreshing var status each 100 ms and avoid cannibalization of system processing resources
@@ -241,6 +275,7 @@ class Trial(Exp):
                     time.sleep(0.1) # Just wait until condition is True, refreshing var status each 100 ms and avoid cannibalization of system processing resources
 
             self.decoding_done = True # Update trial status to trigger feedback finalization
+    
 
     def _store_trial(self):
         trial_file = open(Path(self.trials_dir) / f'trial_{self.trial_idx}.pkl', 'wb') # Store this trial object containing all preprocessed volumes and information relative to them in a pkl file

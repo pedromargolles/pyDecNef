@@ -97,7 +97,7 @@ class Connection(): # Just accept one-one server-client connection
             sys.exit() # To close the client script in case connection to specified IP and PORT fails
 
     def listen(self):
-        print(Fore.YELLOW + '\n[WAITING] Waiting for messages...')
+        print(Fore.YELLOW + '[WAITING] Waiting for messages...')
         message = self.client.recv(self.N_BYTES) # Receive the message
         message = pickle.loads(message) # Unpickle the message
         print(Fore.GREEN + f'[RECEIVED] Message: "{message}" received.')

@@ -1,9 +1,10 @@
 ############################################################################
 # AUTHORS: Pedro Margolles & David Soto
 # EMAIL: pmargolles@bcbl.eu, dsoto@bcbl.eu
-# COPYRIGHT: Copyright (C) 2021, Python fMRI-Neurofeedback
+# COPYRIGHT: Copyright (C) 2021-2022, pyDecNef
+# URL: https://pedromargolles.github.io/pyDecNef/
 # INSTITUTION: Basque Center on Cognition, Brain and Language (BCBL), Spain
-# LICENCE: 
+# LICENCE: GNU General Public License v3.0
 ############################################################################
 
 import os
@@ -46,7 +47,7 @@ class Listener:
             shared_instances.new_trial = Trial()
             shared_instances.new_trial.trial_idx = self.client_request['trial_idx']
             shared_instances.new_trial.ground_truth = self.client_request['ground_truth']
-            shared_instances.new_trial.stimuli = self.client_request['word']
+            shared_instances.new_trial.stimuli = self.client_request['stimuli']
             shared_instances.new_trial.trial_onset = time.time() # Set an onset time when we receive trial onset signal
                                                                  # There might be some delay (miliseconds) with respect to when the onset actually occurred in the experimental software computer 
                                                                  # However, by doing this we avoid clock synchronization problems between experimental computer and server computer

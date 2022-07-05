@@ -1,9 +1,10 @@
 ############################################################################
 # AUTHORS: Pedro Margolles & David Soto
 # EMAIL: pmargolles@bcbl.eu, dsoto@bcbl.eu
-# COPYRIGHT: Copyright (C) 2021, Python fMRI-Neurofeedback
+# COPYRIGHT: Copyright (C) 2021-2022, pyDecNef
+# URL: https://pedromargolles.github.io/pyDecNef/
 # INSTITUTION: Basque Center on Cognition, Brain and Language (BCBL), Spain
-# LICENCE: 
+# LICENCE: GNU General Public License v3.0
 ############################################################################
 
 #############################################################################################

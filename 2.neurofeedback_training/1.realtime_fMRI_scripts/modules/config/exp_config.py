@@ -1,9 +1,10 @@
 ############################################################################
 # AUTHORS: Pedro Margolles & David Soto
 # EMAIL: pmargolles@bcbl.eu, dsoto@bcbl.eu
-# COPYRIGHT: Copyright (C) 2021, Python fMRI-Neurofeedback
+# COPYRIGHT: Copyright (C) 2021-2022, pyDecNef
+# URL: https://pedromargolles.github.io/pyDecNef/
 # INSTITUTION: Basque Center on Cognition, Brain and Language (BCBL), Spain
-# LICENCE: 
+# LICENCE: GNU General Public License v3.0
 ############################################################################
 
 from pathlib import Path
@@ -81,7 +82,7 @@ class Exp:
         cls.moduledir = Path(__file__).absolute().parent.parent.parent
 
         # fMRI raw volumes output folder
-        cls.raw_volumes_folder = cls.moduledir.parent / '1.fakefmri_realdata/output' # To use with fMRI simulator stored in ../../1.fakefmri_realdata
+        cls.raw_volumes_folder = cls.moduledir.parent / '3.fMRI_simulator_realdata/outputs' # To use with fMRI simulator stored in ../../1.fakefmri_realdata
         #cls.raw_volumes_folder = '/firmm/20211028.pm21oct.pm21oct' # To use in a real experiment setting
         check_file(cls.raw_volumes_folder)
  
@@ -130,3 +131,7 @@ class Exp:
         # Make a preprocessed volumes directory inside run directory to store all outputs corresponding to preprocessed volumes in that run
         cls.preprocessed_dir = cls.run_dir / 'preprocessed'
         Path(cls.preprocessed_dir).mkdir(parents=True, exist_ok=True)
+
+        
+
+        # CHECKS
