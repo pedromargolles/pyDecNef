@@ -21,7 +21,7 @@ In addition, introductory tutorials on the decoded neurofeedback technique and a
 
 Although this library, as it is, is oriented to the development of classical decoded neurofeedback studies, it can be easily customized for the execution of other types of real-time brain-computer interface studies.
 
-For example, GLM experiments, adaptive experimental designs where experimental conditions are modified based on brain activation patterns, optimization and calibration designs, encoding and signal reconstruction paradigms...
+For example, GLM experiments, adaptive experimental designs where experimental conditions are modified based on brain activation patterns, optimization and calibration designs, mental reading and signal reconstruction paradigms...
 
 To access this framework scripts visit its [Github repository](https://github.com/pedromargolles/pyDecNef).
 
