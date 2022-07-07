@@ -206,7 +206,7 @@ define inline_script trial_onset_request
 	msg = {'request_type': 'trial_onset', 
 	       'trial_idx': var.trial_idx,
 	       'ground_truth': var.ground_truth,
-	       'stimuli': var.target}
+	       'stimuli': var.stimuli}
 	
 	exp.client.send(msg) # Send trial onset information
 	
