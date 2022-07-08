@@ -11,7 +11,7 @@ from modules.config import shared_instances
 from modules.config.exp_config import Exp
 from modules.pipelines.corregistration_pipeline import corregister_vol
 from modules.pipelines.preproc_vol_to_timeseries_pipeline import preproc_to_baseline, preproc_to_timeseries, preproc_to_model_session
-from modules.pipelines.trial_decoding_pipeline import average_hrf_peak_vols_decoding, average_probs_decoding, dynamic_decoding
+from modules.pipelines.decoding_pipeline import average_hrf_peak_vols_decoding, average_probs_decoding, dynamic_decoding
 from modules.config import shared_instances
 from colorama import init, Fore
 import numpy as np
