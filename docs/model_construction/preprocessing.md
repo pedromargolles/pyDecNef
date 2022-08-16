@@ -32,7 +32,7 @@ You just have to replace these data with yours, modify scripts to match your exp
 
 <center>
 <br>
-<img src="../assets/images/model_construction_preprocessing.png" alt="Model Construction Preprocessing Pipeline Diagram" width="1000">
+<img src="../../assets/images/model_construction_preprocessing.png" alt="Model Construction Preprocessing Pipeline Diagram" width="1000">
 </center>
 
 ## 1 - Set an example functional volume as reference
