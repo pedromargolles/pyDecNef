@@ -1,11 +1,11 @@
 ---
 layout: default
-title: Preprocessing
+title: fMRI Volumes preprocessing
 parent: Model Construction Session
 nav_order: 1
 ---
 
-# Preprocessing
+# fMRI Volumes preprocessing
 {: .no_toc }
 
 ## Table of contents
