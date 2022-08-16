@@ -37,6 +37,16 @@ You just have to replace these data with yours, modify scripts to match your exp
 <img src="../../assets/images/model_construction_preprocessing.png" alt="Model Construction Preprocessing Pipeline Diagram" width="1100">
 </center>
 
+    *NOTE:*
+
+    Ensure that conda environment containing required dependencies for model construction is activated, and dcm2niix and AFNI neuroimage software are preloaded before using preprocessing scripts.
+
 ## 1 - Reference volume extraction
 
-The first preprocessing step consists on selecting 
+The first preprocessing pipeline step consists on selecting selecting a raw functional volume to serve as reference to all other volumes of model construction session, but also to volumes of neurofeedback training sessions.
+
+Usually, fMRI runs start with the acquisition of a number of volumes (5 - 10 volumes) to allow for image stabilization that are then discarded.
+
+In this pipeline, we select the first raw volume after MRI scanner heatup as reference image.
+
+This DICOM volume is converted to NIfTI format using dcm2niix and skull stripped using AFNI to facilitate co-registration to following volumes.
