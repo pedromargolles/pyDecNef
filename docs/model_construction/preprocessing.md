@@ -24,7 +24,7 @@ Next, all functional volumes of the decoder construction session are individuall
 
 Once all functional volumes are labeled, volumes are linear detrended by fMRI run. Then, some volumes of interest are selected for model construction. Usually these are volumes falling within the Hemodynamic Response Function peak of each trial. Lastly, volumes of interest are Z-scored normalized at voxel level.
 
-Preprocessing scripts of model construction session can be found in 1.model_construction/scripts/1.preprocessing sorted by required execution order.
+Preprocessing scripts of model construction session can be found in *1.model_construction/scripts/1.preprocessing* sorted by required execution order.
 
 Further, the pyDecNef pipeline provides example raw data (i.e., DICOM files) of a model construction session following recommended data structure already set in preprocessing scripts. 
 
@@ -32,7 +32,7 @@ You just have to replace these data with yours, modify scripts to match your exp
 
 <center>
 <br>
-<img src="../../assets/images/model_construction_preprocessing.png" alt="Model Construction Preprocessing Pipeline Diagram" width="1000">
+<img src="../../assets/images/model_construction_preprocessing.png" alt="Model Construction Preprocessing Pipeline Diagram" width="1100">
 </center>
 
 ## 1 - Set an example functional volume as reference
