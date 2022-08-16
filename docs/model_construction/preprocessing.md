@@ -16,6 +16,8 @@ nav_order: 1
 
 ---
 
+## Preprocessing pipeline
+
 Model construction session functional volumes are preprocessed using the same neuroimage software and preprocessing steps as they are preprocessed during real-time fMRI decoding neurofeedback training. This enables to maximize similarity between pipelines and avoid potential confusion variables.
 
 As an starting point, a functional volume is set as reference volume to functional volumes of both model construction and neurofeedback training sessions.
