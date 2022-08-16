@@ -24,7 +24,7 @@ As an starting point, a functional volume is set as reference volume to function
 
 Next, all functional volumes of the decoder construction session are individually corregistered to that reference volume and stacked together by functional run. All volumes are labeled using log files of experimental paradigm used during model construction session runs to identify each volume by its time from corresponding trial onset; its stimuli category; the experimental condition... 
 
-Once all functional volumes are labeled, volumes are linear detrended by fMRI run. Then, some volumes of interest are selected for model construction. Usually these are volumes falling within the Hemodynamic Response Function peak of each trial. Lastly, volumes of interest are Z-scored normalized at voxel level.
+Once all functional volumes are labeled, volumes are linear detrended by fMRI run. Then, some volumes of interest are selected for model construction. Usually these are volumes falling within the Hemodynamic Response Function (H.R.F.) peak of each trial. Lastly, volumes of interest are Z-scored normalized at voxel level.
 
 Preprocessing scripts of model construction session can be found in *1.model_construction/scripts/1.preprocessing* sorted by required execution order.
 
@@ -69,5 +69,8 @@ Once all raw volumes of model construction session were independently co-registe
 
 ## 3 - Decoding preprocessing
 
+After labeling co-registered volumes, these are prepared for the machine learning model training. 
 
+Specifically, all functional volumes are linearly detrended by fMRI run at voxel-level. Then, volumes of interest of all runs (i.e., volumes falling within H.R.F. peak of trials) are extracted and stacked together. 
 
+Lastly, to improve model performance between fMRI sessions, BOLD activity is scaled at voxel level to have mean of 0 and a standard deviation of 1 by using Z-scoring normalization.
