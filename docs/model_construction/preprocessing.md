@@ -37,11 +37,11 @@ You just have to replace these data with yours, modify scripts to match your exp
 <img src="../../assets/images/model_construction_preprocessing.png" alt="Model Construction Preprocessing Pipeline Diagram" width="1100">
 </center>
 
-    *NOTE:*
+## 1 - Reference volume extraction
+
+    NOTE:
 
     Ensure that conda environment containing required dependencies for model construction is activated, and dcm2niix and AFNI neuroimage software are preloaded before using preprocessing scripts.
-
-## 1 - Reference volume extraction
 
 The first preprocessing pipeline step consists on selecting selecting a raw functional volume to serve as reference to all other volumes of model construction session, but also to volumes of neurofeedback training sessions.
 
@@ -49,4 +49,21 @@ Usually, fMRI runs start with the acquisition of a number of volumes (5 - 10 vol
 
 In this pipeline, we select the first raw volume after MRI scanner heatup as reference image.
 
-This DICOM volume is converted to NIfTI format using dcm2niix and skull stripped using AFNI to facilitate co-registration to following volumes.
+This DICOM volume is converted to NIfTI format (without compression) using dcm2niix to increase co-registration speed during real-time neurofeedback training sessions, and skull stripped using AFNI to facilitate co-registration to following volumes.
+
+## 2 - Volumes co-registration
+
+Raw volumes of all model construction runs are similarly converted NIfTI format, skull stripped and co-registered using rigid body (6 parameter) transformations to the reference volume by using AFNI 3dvolreg program. 
+
+Heptic polynomial interpolation (7th orders polynomial) is set as default spatial interpolation method in the co-registration procedure.
+
+For each subject, one can increase co-registration accuracy between images by manipulating *erode* or *clfrac* parameters in brain extraction preprocessing step. This will erode the brain mask inwards avoiding skull and tissue fragments alter co-registration. **NOTE: if you change the default values of *erode* and *clfrac* for a participant, is important that new parameters are also set in the corregistration pipeline function used during real-time neurofeedback training of that subject (i.e., 2.neurofeedback_training/1.server_computer_scripts/1.real_time_fMRI_scripts/modules/pipelines/corregistration_pipeline.py).**
+
+Once all raw volumes were independently co-registered to the reference volume, we can stack together all volumes of each model construction run.
+
+..... LABELING
+
+## 3 - 
+
+
+
