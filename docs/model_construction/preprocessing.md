@@ -1,11 +1,11 @@
 ---
 layout: default
-title: fMRI Volumes preprocessing
-parent: Model Construction Session
+title: fMRI volumes preprocessing
+parent: Model construction session
 nav_order: 1
 ---
 
-# fMRI Volumes preprocessing
+# fMRI volumes preprocessing
 {: .no_toc }
 
 ## Table of contents
@@ -37,6 +37,6 @@ You just have to replace these data with yours, modify scripts to match your exp
 <img src="../../assets/images/model_construction_preprocessing.png" alt="Model Construction Preprocessing Pipeline Diagram" width="1100">
 </center>
 
-## 1 - Set an example functional volume as reference
+## 1 - Reference volume extraction
 
 The first preprocessing step consists on selecting 

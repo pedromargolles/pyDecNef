@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Model Construction Session
+title: Model construction session
 nav_order: 3
 has_children: True
 permalink: docs/model_construction
