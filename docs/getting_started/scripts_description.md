@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Scripts description
-nav_order: 3
+nav_order: 2
 has_children: false
 permalink: docs/scripts_description
 ---
