@@ -61,13 +61,13 @@ Heptic polynomial interpolation (7th orders polynomial) is set as default spatia
 
 For each subject, one can increase co-registration accuracy between images by manipulating *erode* or *clfrac* parameters in brain extraction preprocessing step. This will erode the brain mask inwards avoiding skull and tissue fragments alter co-registration. 
 
-**NOTE: if you decide to change the default *erode* and *clfrac* parameters for a participant, is important that new parameters are also set within the corregistration pipeline function used during real-time neurofeedback training for that subject (i.e., 2.neurofeedback_training/1.server_computer_scripts/1.real_time_fMRI_scripts/modules/pipelines/corregistration_pipeline.py).**
+**NOTE: if you decide to change the default *erode* and *clfrac* parameters for a participant, is important that new parameters are also set within the corregistration pipeline function used during real-time neurofeedback training for that subject (i.e., <a href="https://github.com/pedromargolles/pyDecNef/blob/main/2.neurofeedback_training/1.server_computer_scripts/1.realtime_fMRI_scripts/modules/pipelines/corregistration_pipeline.py" target="_blank">corregistration_pipeline.py</a>). Otherwise, real-time co-registration might not be as accurate as during model construction session.**
 
-Once all raw volumes were independently co-registered to the reference volume, we can stack together all volumes of each model construction run.
+Once all raw volumes of model construction session were independently co-registered to the reference volume, we can stack them together by each run.
 
 ..... LABELING
 
-## 3 - 
+## 3 - Decoding preprocessing
 
 
 
