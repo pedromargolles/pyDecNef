@@ -7,7 +7,6 @@ permalink: docs/model_construction
 ---
 
 # Model Construction Session
-{: .no_toc }
 
 1. TOC
 {:toc}
