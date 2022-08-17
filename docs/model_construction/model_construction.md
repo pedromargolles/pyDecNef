@@ -9,9 +9,6 @@ permalink: docs/model_construction
 # Model Construction Session
 {: .no_toc }
 
-## Steps
-{: .no_toc .text-delta }
-
 1. TOC
 {:toc}
 
