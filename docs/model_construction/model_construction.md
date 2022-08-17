@@ -8,9 +8,6 @@ permalink: docs/model_construction
 
 # Model Construction Session
 
-1. TOC
-{:toc}
-
 ---
 
 ## Description
@@ -25,7 +22,7 @@ Model construction session can be merged onto a single session with the first re
 
 <center>
 <br>
-<img src="../../assets/images/model_construction_session.png" alt="Model Construction Session" width="1100">
+<img src="../assets/images/model_construction_session.png" alt="Model Construction Session" width="1100">
 </center>
 
 It is important to note that decoding neurofeedback experiments require good performance models (as a criteria, above 70% AUC). Cognitive states should be easely, consistently and accurately discriminated by your model. Otherwise, most of the time you will be giving participant an erroneus feedback to control their performance biasing experimental results. Experimental paradigms of model construction session should be created with that in mind.
