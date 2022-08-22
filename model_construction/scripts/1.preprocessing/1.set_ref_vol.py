@@ -62,15 +62,14 @@ raw_func_vols = sorted((raw_func_vols_dir / 'run_1').glob('**/*.dcm')) # Get and
 ref_vol = raw_func_vols[n_heatup_vols] # Set first DICOM after n_heatup_vols as reference functional volume
 
 # Load ref_vol DICOM, convert to NIfTI using dcm2niix and store outputs in ref_vol_dir
-vol_name = 'ref_vol'
-subprocess.run([f'dcm2niix -z n -f {vol_name} -o {ref_vol_dir} -s y {ref_vol}'], shell = True)
+subprocess.run([f"dcm2niix -z n -f 'ref_vol' -o {ref_vol_dir} -s y {ref_vol}"], shell = True)
 
 # Deoblique converted NIfTI file
 deoblique_vol = afni.Warp() # Use AFNI 3dWarp command
-deoblique_vol.inputs.in_file = ref_vol_dir / (vol_name + '.nii') # Get NIfTI file
+deoblique_vol.inputs.in_file = ref_vol_dir / 'ref_vol.nii' # Get NIfTI file
 deoblique_vol.inputs.deoblique = True # Deoblique NIfTI file
 deoblique_vol.inputs.outputtype = 'NIFTI'
-ref_vol_deobliqued_file = ref_vol_dir / (vol_name + '_deobliqued.nii') # Use *.nii format instead of *.nii.gz to improve processing speed in during real-time decoding neurofeedback training session
+ref_vol_deobliqued_file = ref_vol_dir / 'ref_vol_deobliqued.nii' # Use *.nii format instead of *.nii.gz to improve processing speed in during real-time decoding neurofeedback training session
 deoblique_vol.inputs.out_file = ref_vol_deobliqued_file
 deoblique_vol.run()
 
@@ -81,8 +80,8 @@ brainextraction.inputs.erode = 1 # Erode the mask inwards to avoid skull and tis
                                  # on brain extraction performance during model construction session.
 brainextraction.inputs.clfrac = 0.5 # Sets the clip level fraction (0.1 - 0.9). By default 0.5. The larger, the restrictive brain extraction is
 brainextraction.inputs.outputtype = 'NIFTI'
-brain_file = ref_vol_dir / (vol_name + '_deobliqued_brain.nii')
-brainmask_file = ref_vol_dir / (vol_name + '_deobliqued_brainmask.nii') # Use *.nii format instead of *.nii.gz to improve processing speed in during real-time decoding neurofeedback training session
+brain_file = ref_vol_dir / 'ref_vol_deobliqued_brain.nii'
+brainmask_file = ref_vol_dir / 'ref_vol_deobliqued_brainmask.nii' # Use *.nii format instead of *.nii.gz to improve processing speed in during real-time decoding neurofeedback training session
 brainextraction.inputs.brain_file = brain_file # Just brain's data
 brainextraction.inputs.out_file = brainmask_file # Brain binarized mask
 brainextraction.run()

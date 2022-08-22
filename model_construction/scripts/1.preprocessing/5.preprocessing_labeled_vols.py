@@ -94,7 +94,7 @@ def zscore_func(array):
     std_array[std_array < np.finfo(np.float64).eps] = 1. # Avoid numerical problems
     mean_centered_array = array - mean_array # Mean centering
     zscored_vols = mean_centered_array / std_array
-    return zscored_vols, zscoring_mean, zscoring_std
+    return zscored_vols, mean_array, std_array
 
 vols_of_interest = []
 for labeled_vols, vols_of_interest_csv in runs: # Preprocess labeled volumes by fMRI run
@@ -114,21 +114,21 @@ for labeled_vols, vols_of_interest_csv in runs: # Preprocess labeled volumes by 
 vols_of_interest = np.vstack(vols_of_interest) # Stack together all volumes of interest of all runs
     
 # Zscoring step
-zscored_vols, zscoring_mean, zscoring_std = zscore_func(vols_of_interest) # Z-scoring standardization of all volumes of interest
+preprocessed_vols_of_interest, mean_vols_of_interest, std_vols_of_interest = zscore_func(vols_of_interest) # Z-scoring standardization of all volumes of interest
 
 # Inverse transformation from 2D to 4D space
-vols_of_interest = nifti_masker.inverse_transform(zscored_vols) # Convert 2D z-scored array of volumes to a 4D image using NiLearn NiftiMasker inverse transformation
-zscoring_mean_img = nifti_masker.inverse_transform(zscoring_mean) # Convert also BOLD signal mean by voxel to a 3D image 
-zscoring_std_img = nifti_masker.inverse_transform(zscoring_std) # Convert also BOLD signal STD by voxel to a 3D image 
+preprocessed_vols_of_interest = nifti_masker.inverse_transform(preprocessed_vols_of_interest) # Convert 2D z-scored array of volumes to a 4D image using NiLearn NiftiMasker inverse transformation
+mean_vols_of_interest = nifti_masker.inverse_transform(mean_vols_of_interest) # Convert also BOLD signal mean by voxel to a 3D image 
+std_vols_of_interest = nifti_masker.inverse_transform(std_vols_of_interest) # Convert also BOLD signal STD by voxel to a 3D image 
 
 #############################################################################################
 # SAVE PRE-PROCESSED DATA
 #############################################################################################
 
-vols_of_interest.to_filename(str(vols_of_interest_dir / 'preprocessed_vols_of_interest.nii.gz')) # Save preprocessed volumes of interest
-zscoring_mean_img.to_filename(str(vols_of_interest_dir / 'zscoring_mean.nii.gz')) # Save whole-brain BOLD signal mean by voxel
-zscoring_std_img.to_filename(str(vols_of_interest_dir / 'zscoring_std.nii.gz')) # Save whole-brain BOLD signal STD by voxel
+preprocessed_vols_of_interest.to_filename(str(vols_of_interest_dir / 'preprocessed_vols_of_interest.nii.gz')) # Save preprocessed volumes of interest
+mean_vols_of_interest.to_filename(str(vols_of_interest_dir / 'mean_vols_of_interest.nii.gz')) # Save whole-brain BOLD signal mean by voxel
+std_vols_of_interest.to_filename(str(vols_of_interest_dir / 'std_vols_of_interest.nii.gz')) # Save whole-brain BOLD signal STD by voxel
 
-labels_csvs = [pd.read_csv(str(run_behav)) for run_behav in vols_of_interest_dir.glob('*.csv')] # Stack volumes of interest labels CSVs files
-stacked_labels = pd.concat(labels_csvs, ignore_index = True)
-stacked_labels.to_csv(str(vols_of_interest_dir / 'vols_of_interest_labels.csv'))
+labels_vols_of_interest = [pd.read_csv(str(run_behav)) for run_behav in vols_of_interest_dir.glob('*.csv')] # Stack volumes of interest labels CSVs files
+labels_vols_of_interest = pd.concat(labels_vols_of_interest, ignore_index = True)
+labels_vols_of_interest.to_csv(str(vols_of_interest_dir / 'labels_vols_of_interest.csv'))
