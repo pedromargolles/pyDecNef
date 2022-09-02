@@ -13,7 +13,6 @@
 
 from nipype.interfaces import afni as afni
 from pathlib import Path
-import shutil
 import subprocess
 
 #############################################################################################
@@ -40,19 +39,17 @@ clfrac = 0.5 # Sets the clip level fraction (0.1 - 0.9). By default 0.5.
 #############################################################################################
 
 exp_dir = Path().absolute().parent.parent
-raw_dir = exp_dir / 'data'
+data_dir = exp_dir / 'data'
+raw_dir = data_dir / 'raw'
 raw_func_vols_dir = raw_dir / 'func'
-raw_func_vols_dir = Path(raw_func_vols_dir)
-preprocessed_dir = exp_dir / 'preprocessed/'
-ref_vol_dir = preprocessed_dir / 'ref_vol'
-preprocessed_func_dir = preprocessed_dir / 'preprocessed_func'
-rt_resources = exp_dir / 'rt_resources'
+preprocessed_dir = data_dir / 'preprocessed/'
+ref_vol_dir = preprocessed_dir / '1.ref_vol'
+preprocessed_func_dir = preprocessed_dir / '2.preprocessed_func'
+rt_resources = data_dir / 'rt_resources'
 rt_resources_coregistration = rt_resources / 'coregistration'
-rt_resources_brainextraction = rt_resources / 'brain_extraction'
 
 # Create dirs
 preprocessed_func_dir.mkdir(exist_ok = True, parents = True)
-rt_resources_brainextraction.mkdir(exist_ok = True, parents = True)
 
 #############################################################################################
 # CO-REGISTER ALL DICOM FILES OF MODEL CONSTRUCTION SESSION TO REFERENCE VOLUME
@@ -66,6 +63,8 @@ rt_resources_brainextraction.mkdir(exist_ok = True, parents = True)
 #   3 - Deoblique NIfTI file
 #   4 - Perform brain extraction
 #   5 - Co-register volume to reference volume
+
+ref_vol = str(ref_vol_dir / 'ref_vol_deobliqued_brain.nii') # Set reference volume for co-registration
 
 for folder in raw_func_vols_dir.iterdir():
     if folder.is_dir(): # Iterate over all functional runs folders
@@ -81,12 +80,12 @@ for folder in raw_func_vols_dir.iterdir():
                                         
             # Deoblique converted Nifti file
             deoblique = afni.Warp() # Use AFNI 3dWarp command
-            nifti_file = run_dir / (vol_name + '.nii') # To save each vol as .nii instead to .nii.gz to load faster
+            nifti_file = str(run_dir / (vol_name + '.nii')) # To save each vol as .nii instead to .nii.gz to load faster
             deoblique.inputs.in_file = nifti_file # Get NIfTI file
             deoblique.inputs.deoblique = True # Deoblique NIfTI files
-            deoblique.inputs.gridset = str(ref_vol_dir / 'ref_vol_deobliqued_brain.nii') # Copy ref_vol grid so volumes dimensions match between runs and sessions
+            deoblique.inputs.gridset = ref_vol # Copy ref_vol grid so volumes dimensions match between runs and sessions
             deoblique.inputs.outputtype = 'NIFTI'
-            deobliqued_file = run_dir / (vol_name + '_deobliqued.nii') # Use *.nii format instead of *.nii.gz to improve processing speed in during real-time decoding neurofeedback training session
+            deobliqued_file = str(run_dir / (vol_name + '_deobliqued.nii')) # Use *.nii format instead of *.nii.gz to improve processing speed in during real-time decoding neurofeedback training session
             deoblique.inputs.out_file = deobliqued_file
             deoblique.run()
             
@@ -97,8 +96,8 @@ for folder in raw_func_vols_dir.iterdir():
                                                  # on brain extraction performance during model construction session
             brainextraction.inputs.clfrac = clfrac # Sets the clip level fraction (0.1 - 0.9). By default 0.5. The larger, the restrictive brain extraction is
             brainextraction.inputs.outputtype = 'NIFTI'
-            brain_file = run_dir / (vol_name + '_deobliqued_brain.nii')
-            brainmask_file = run_dir / (vol_name + '_deobliqued_brainmask.nii') # Use *.nii format instead of *.nii.gz to improve processing speed in during real-time decoding neurofeedback training session
+            brain_file = str(run_dir / (vol_name + '_deobliqued_brain.nii'))
+            brainmask_file = str(run_dir / (vol_name + '_deobliqued_brainmask.nii')) # Use *.nii format instead of *.nii.gz to improve processing speed in during real-time decoding neurofeedback training session
             brainextraction.inputs.brain_file = brain_file # Just brain's data
             brainextraction.inputs.out_file = brainmask_file # Brain binarized mask
             brainextraction.run()
@@ -109,10 +108,10 @@ for folder in raw_func_vols_dir.iterdir():
             volreg.inputs.basefile = ref_vol # Take reference volume as base file during co-registration
             volreg.inputs.args = '-heptic' # Spatial interpolation
             volreg.inputs.outputtype = 'NIFTI'
-            oned_file = run_dir / (vol_name + '_deoblique_brain_coregister.1D') 
-            oned_matrix_file =  run_dir / (vol_name + '_deoblique_brain_coregister.aff12.1D')
-            md1d_file = run_dir / (vol_name + '_deoblique_brain_coregister_md.1D')
-            coregister_file = run_dir / (vol_name + '_deoblique_brain_coregister.nii')
+            oned_file = str(run_dir / (vol_name + '_deoblique_brain_coregistered.1D')) 
+            oned_matrix_file =  str(run_dir / (vol_name + '_deoblique_brain_coregistered.aff12.1D'))
+            md1d_file = str(run_dir / (vol_name + '_deoblique_brain_coregistered_md.1D'))
+            coregister_file = str(run_dir / (vol_name + '_deoblique_brain_coregistered.nii'))
             volreg.inputs.oned_file = oned_file # 1D movement parameters output file -1Dfile
             volreg.inputs.oned_matrix_save = oned_matrix_file # Save the matrix transformation. -1Dmatrix_save
             volreg.inputs.md1d_file = md1d_file # Max displacement output file -maxdisp1D
@@ -120,13 +119,13 @@ for folder in raw_func_vols_dir.iterdir():
             volreg.run()
             
             for file in run_dir.glob('*'): # To save space, remove all files from preprocessed runs folders which does not contain 'coregister.nii' string in their name
-                if 'coregister.nii' not in str(file):
+                if 'coregistered.nii' not in str(file):
                     file.unlink()
 
 #############################################################################################
 # SAVE CO-REGISTRATION BRAIN EXTRACTION CONFIGURATION FOR REAL-TIME PREPROCESSING
 #############################################################################################
-with open(str(rt_resources_brainextraction / "bet_config.txt"), "w") as file:
+with open(str(rt_resources_coregistration / "bet_config.txt"), "w") as file:
     content = [f"erode = {erode}\n", f"clfrac = {clfrac}\n"]
     file.writelines(content)
     file.close()

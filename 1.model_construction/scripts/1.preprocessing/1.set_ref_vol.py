@@ -30,21 +30,19 @@ import subprocess
 #############################################################################################
 
 exp_dir = Path().absolute().parent.parent
-raw_dir = exp_dir / 'data'
+data_dir = exp_dir / 'data'
+raw_dir = data_dir / 'raw'
 raw_func_vols_dir = raw_dir / 'func'
-raw_func_vols_dir = Path(raw_func_vols_dir)
-preprocessed_dir = exp_dir / 'preprocessed/'
-ref_vol_dir = preprocessed_dir / 'ref_vol'
-rt_resources = exp_dir / 'rt_resources'
+preprocessed_dir = data_dir / 'preprocessed/'
+ref_vol_dir = preprocessed_dir / '1.ref_vol'
+rt_resources = data_dir / 'rt_resources'
 rt_resources_coregistration = rt_resources / 'coregistration'
-rt_resources_ref_vol_dir = rt_resources_coregistration / 'ref_vol'
 
 # Create dirs
 preprocessed_dir.mkdir(exist_ok = True, parents = True)
 ref_vol_dir.mkdir(exist_ok = True, parents = True)
 rt_resources.mkdir(exist_ok = True, parents = True)
 rt_resources_coregistration.mkdir(exist_ok = True, parents = True)
-rt_resources_ref_vol_dir.mkdir(exist_ok = True, parents = True)
 
 #############################################################################################
 # SETUP VARIABLES
@@ -91,4 +89,4 @@ brainextraction.run()
 #############################################################################################
 
 # Copy reference volume deobliqued brain to rt_resources folder
-shutil.copy(ref_vol, str(rt_resources_ref_vol_dir / 'ref_vol_deobliqued_brain.nii'))
+shutil.copy(ref_vol, str(rt_resources_coregistration / 'ref_vol_deobliqued_brain.nii'))

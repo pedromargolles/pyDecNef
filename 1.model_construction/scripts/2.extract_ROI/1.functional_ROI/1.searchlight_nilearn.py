@@ -24,20 +24,20 @@ from sklearn.model_selection import LeaveOneGroupOut
 #############################################################################################
 
 # Perform a fast searchlight analysis for functional ROI determination by using LogisticRegression
-# LogisticRegression for binary classification as decoding model 
-# and leave-one-run-out cross-validation
+# for binary classification as decoding model and leave-one-run-out cross-validation
 
 #############################################################################################
 # SET FILE STRUCTURE
 #############################################################################################
 
-exp_dir = Path().absolute().parent.parent
-preprocessed_dir = exp_dir / 'preprocessed/'
-ref_vol_dir = preprocessed_dir / 'ref_vol'
-vols_of_interest_dir = preprocessed_dir / 'preprocessed_vols_of_interest'
-decoding_results_dir = exp_dir / 'decoding_results'
+exp_dir = Path().absolute().parent.parent.parent
+data_dir = exp_dir / 'data'
+preprocessed_dir = data_dir / 'preprocessed/'
+ref_vol_dir = preprocessed_dir / '1.ref_vol'
+vols_of_interest_dir = preprocessed_dir / '4.preprocessed_vols_of_interest'
+decoding_results_dir = preprocessed_dir / '5.decoding_results'
 searchlight_dir = decoding_results_dir / 'searchlight'
-rois_dir = preprocessed_dir / 'ROIs_masks'
+rois_dir = preprocessed_dir / '6.ROIs_masks'
 
 # Create dirs
 decoding_results_dir.mkdir(exist_ok = True, parents = True)
@@ -67,7 +67,7 @@ brain_mask = load_img(str(ref_vol_dir / 'ref_vol_deobliqued_brainmask.nii'))
 # Keep just volumes belonging to trials category of 0 or 1
 labels_vols_of_interest = labels_vols_of_interest[(labels_vols_of_interest.trial_category == 0) | (labels_vols_of_interest.trial_category == 1)]
 preprocessed_vols_of_interest_array = preprocessed_vols_of_interest.get_fdata()
-preprocessed_vols_of_interest_array = preprocessed_vols_of_interest[:, :, :, labels_vols_of_interest.index.values] # Select preprocessed volumes
+preprocessed_vols_of_interest_array = preprocessed_vols_of_interest_array[:, :, :, labels_vols_of_interest.index.values] # Select preprocessed volumes
 preprocessed_vols_of_interest = new_img_like(preprocessed_vols_of_interest, preprocessed_vols_of_interest_array, copy_header = True)
 labels_vols_of_interest.reset_index(inplace = True) # Reset vols of interest labels indexes so they match again with preprocessed_vols_of_interest indexes
 

@@ -29,12 +29,13 @@ import numpy as np
 #############################################################################################
 
 exp_dir = Path().absolute().parent.parent
+data_dir = exp_dir / 'data'
 preprocessed_dir = exp_dir / 'preprocessed/'
-ref_vol_dir = preprocessed_dir / 'ref_vol'
-vols_of_interest_dir = preprocessed_dir / 'preprocessed_vols_of_interest'
-rois_dir = preprocessed_dir / 'ROIs_masks'
-masked_vols_of_interest_dir = preprocessed_dir / 'masked_vols_of_interest'
-rt_resources = exp_dir / 'rt_resources'
+ref_vol_dir = preprocessed_dir / '1.ref_vol'
+vols_of_interest_dir = preprocessed_dir / '4.preprocessed_vols_of_interest'
+rois_dir = preprocessed_dir / '6.ROIs_masks'
+masked_vols_of_interest_dir = preprocessed_dir / '7.masked_vols_of_interest'
+rt_resources = data_dir / 'rt_resources'
 rt_resources_zscoring = rt_resources / 'zscoring'
 
 # Create dirs
@@ -47,6 +48,9 @@ rt_resources_zscoring.mkdir(exist_ok = True, parents = True)
 
 # Relevant variables for masking already preprocessed volumes of interest
 ROI_mask = load_img(str(rois_dir / 'mask.nii.gz')) # ROI mask that will be used for masking volumes of interest
+
+# ROI mask output name
+ROI_mask_name = 'ROI'
 
 #############################################################################################
 # LOAD PRE-PROCESSED VOLUMES OF INTEREST, LABELS, INFORMATION FOR ZSCORING AND ROI MASK
@@ -84,10 +88,10 @@ masked_mean_vols_of_interest = nifti_masker.transform(mean_vols_of_interest) # M
 masked_std_vols_of_interest = nifti_masker.transform(std_vols_of_interest) # Mask whole-brain BOLD signal mean by voxel
 
 # Save masked numpy arrays for model training and z-scoring data for volumes processing in real time
-ROI_mask_name = ROI_mask.name.split('.nii.gz')[0]
 np.save(str(masked_vols_of_interest_dir / f'preprocessed_vols_of_interest_{ROI_mask_name}.npy'))
 np.save(str(masked_vols_of_interest_dir / f'mean_vols_of_interest_{ROI_mask_name}.npy'))
 np.save(str(masked_vols_of_interest_dir / f'std_vols_of_interest_{ROI_mask_name}.npy'))
+labels_vols_of_interest.to_csv(str(masked_vols_of_interest_dir / f'labels_vols_of_interest.csv'))
 
 # Copy z-scoring data for volumes processing in real time to rt_resources folder
 np.save(str(rt_resources_zscoring / f'mean_vols_of_interest_{ROI_mask_name}.npy'))

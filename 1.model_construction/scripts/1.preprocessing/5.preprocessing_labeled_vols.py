@@ -29,11 +29,12 @@ import numpy as np
 #############################################################################################
 
 exp_dir = Path().absolute().parent.parent
-preprocessed_dir = exp_dir / 'preprocessed/'
+data_dir = exp_dir / 'data'
+preprocessed_dir = data_dir / 'preprocessed/'
 preprocessed_func_dir = preprocessed_dir / 'preprocessed_func'
-ref_vol_dir = preprocessed_dir / 'ref_vol'
-labeled_dir = preprocessed_dir / 'labeled_vols_of_interest'
-vols_of_interest_dir = preprocessed_dir / 'preprocessed_vols_of_interest'
+ref_vol_dir = preprocessed_dir / '1.ref_vol'
+labeled_dir = preprocessed_dir / '3.labeled_vols_of_interest'
+vols_of_interest_dir = preprocessed_dir / '4.preprocessed_vols_of_interest'
 
 # Create dirs
 vols_of_interest_dir.mkdir(exist_ok = True, parents = True)
@@ -61,8 +62,6 @@ nifti_masker = NiftiMasker(mask_img = dummy_mask,
                            standardize = False,  # Don't preprocess data at this point
                            detrend = False, # Don't preprocess data at this point
                            )
-
-nifti_masker.fit(ref_vol) # Fit NiftiMasker to ref_vol dimensions
 
 #############################################################################################
 # PREPROCESS LABELED FUNCTIONAL VOLUMES
@@ -98,14 +97,16 @@ def zscore_func(array):
     return zscored_vols, mean_array, std_array
 
 vols_of_interest = []
+labels_vols_of_interest = []
 for labeled_vols, vols_of_interest_csv in runs: # Preprocess labeled volumes by fMRI run
     print('\nProcessing:', labeled_vols, vols_of_interest_csv)
 
     labeled_vols = load_img(labeled_vols) # Load labeled volumes and their respective labels
     vols_of_interest_csv = pd.read_csv(vols_of_interest_csv)
+    labels_vols_of_interest.append(vols_of_interest_csv)
 
     # Transform 4D Nilearn images to 2D numpy arrays
-    labeled_vols = nifti_masker.transform(labeled_vols) # Convert labeled volumes to flatten numpy array
+    labeled_vols = nifti_masker.fit_transform(labeled_vols) # Convert labeled volumes to flatten numpy array
     vols_of_interest_idxs = vols_of_interest_csv.vol_idx.values # Get volumes of interests indexes of that run
 
     # Detrending step
@@ -122,14 +123,14 @@ preprocessed_vols_of_interest = nifti_masker.inverse_transform(preprocessed_vols
 mean_vols_of_interest = nifti_masker.inverse_transform(mean_vols_of_interest) # Convert also BOLD signal mean by voxel to a 3D image 
 std_vols_of_interest = nifti_masker.inverse_transform(std_vols_of_interest) # Convert also BOLD signal STD by voxel to a 3D image 
 
+# Concat volumes of interest labels
+labels_vols_of_interest = pd.concat(labels_vols_of_interest, ignore_index = True)
+
 #############################################################################################
 # SAVE PRE-PROCESSED DATA
 #############################################################################################
 
-preprocessed_vols_of_interest.to_filename(str(vols_of_interest_dir / 'preprocessed_vols_of_interest.nii.gz')) # Save preprocessed volumes of interest
+preprocessed_vols_of_interest.to_filename(str(vols_of_interest_dir / 'preprocessed_vols_of_interest.nii.gz')) # Save preprocessed and stacked volumes of interest
 mean_vols_of_interest.to_filename(str(vols_of_interest_dir / 'mean_vols_of_interest.nii.gz')) # Save whole-brain BOLD signal mean by voxel
 std_vols_of_interest.to_filename(str(vols_of_interest_dir / 'std_vols_of_interest.nii.gz')) # Save whole-brain BOLD signal STD by voxel
-
-labels_vols_of_interest = [pd.read_csv(str(run_behav)) for run_behav in vols_of_interest_dir.glob('*.csv')] # Stack volumes of interest labels CSVs files
-labels_vols_of_interest = pd.concat(labels_vols_of_interest, ignore_index = True)
-labels_vols_of_interest.to_csv(str(vols_of_interest_dir / 'labels_vols_of_interest.csv'))
+labels_vols_of_interest.to_csv(str(vols_of_interest_dir / 'labels_vols_of_interest.csv'), index = False) # Save concatenated volumes of interest labels

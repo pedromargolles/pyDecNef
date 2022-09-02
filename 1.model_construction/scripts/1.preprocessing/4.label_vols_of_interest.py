@@ -39,11 +39,12 @@ HRF_peak_offset = 18000 #  H.R.F. peak threshold offset (miliseconds from trial 
 #############################################################################################
 
 exp_dir = Path().absolute().parent.parent
-raw_dir = exp_dir / 'data'
+data_dir = exp_dir / 'data'
+raw_dir = data_dir / 'raw'
 func_logs_dir = raw_dir / 'logs'
-preprocessed_dir = exp_dir / 'preprocessed/'
-preprocessed_func_dir = preprocessed_dir / 'preprocessed_func'
-labeled_dir = preprocessed_dir / 'labeled_vols_of_interest'
+preprocessed_dir = data_dir / 'preprocessed/'
+preprocessed_func_dir = preprocessed_dir / '2.preprocessed_func'
+labeled_dir = preprocessed_dir / '3.labeled_vols_of_interest'
 
 # Create dirs
 labeled_dir.mkdir(exist_ok = True, parents = True)
@@ -152,4 +153,4 @@ for func_file, log_file in runs_data: # For each run
     nii_data.to_filename(str(labeled_dir / (func_name + '.nii.gz')))
     
     # Extract labeled volumes of interest information
-    df_vols_of_interest.to_csv(str(labeled_dir / (func_name + '_vols_of_interest.csv')))
+    df_vols_of_interest.to_csv(str(labeled_dir / (func_name + '_vols_of_interest.csv')), index = False)

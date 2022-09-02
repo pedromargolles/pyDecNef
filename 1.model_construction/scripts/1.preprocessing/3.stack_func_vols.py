@@ -25,8 +25,9 @@ from nilearn.image import concat_imgs
 #############################################################################################
 
 exp_dir = Path().absolute().parent.parent
-preprocessed_dir = exp_dir / 'preprocessed/'
-preprocessed_func_dir = preprocessed_dir / 'preprocessed_func'
+data_dir = exp_dir / 'data'
+preprocessed_dir = data_dir / 'preprocessed/'
+preprocessed_func_dir = preprocessed_dir / '2.preprocessed_func'
 
 #############################################################################################
 # STACK IN A NIFTI FILE ALL PREPROCESSED FUNCTIONAL VOLUMES BY RUN
@@ -48,5 +49,5 @@ for folder in preprocessed_func_dir.iterdir():
         stacked_file = folder / (folder.name + '.nii.gz')
         stacked_run.to_filename(stacked_file) # Save stacked data as a single compressed NIfTI file
         for vol_file in sorted_vols:
-            vol_file.unlink() # Delete individual NIfTI files of each run folder to free space
+            vol_file.unlink() # Delete individual NIfTI files from each run folder to free up space
         

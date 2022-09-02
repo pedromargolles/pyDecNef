@@ -28,9 +28,10 @@ import numpy as np
 #############################################################################################
 
 exp_dir = Path().absolute().parent.parent
-preprocessed_dir = exp_dir / 'preprocessed/'
-ref_vol_dir = preprocessed_dir / 'ref_vol'
-rois_dir = preprocessed_dir / 'ROIs_masks'
+data_dir = exp_dir / 'data'
+preprocessed_dir = data_dir / 'preprocessed/'
+ref_vol_dir = preprocessed_dir / '1.ref_vol'
+rois_dir = preprocessed_dir / '6.ROIs_masks'
 
 #############################################################################################
 # PREPARE ROIs MASKS
