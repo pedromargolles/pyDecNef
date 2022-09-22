@@ -1,4 +1,4 @@
-<br></br>
+<p></p>
 <p align="center">
   <img src="https://pedromargolles.github.io/pyDecNef/assets/images/wide_logo2.png">
 </p>
