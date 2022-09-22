@@ -1,6 +1,6 @@
-# pyDecNef: A Python framework for real-time fMRI decoded neurofeedback
-
-[![pyDecNef](https://pedromargolles.github.io/pyDecNef/assets/images/wide_logo2.png)](https://pedromargolles.github.io/pyDecNef/)
+<p align="center">
+  <img src="https://pedromargolles.github.io/pyDecNef/assets/images/wide_logo2.png">
+</p>
 
 ## About
 
