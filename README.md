@@ -5,7 +5,7 @@
   <img src="https://img.shields.io/badge/Coverage-80%25-yellow.svg" alt="Coverage">
   <a href="https://pedromargolles.github.io/pyDecNef/"><img src="https://img.shields.io/badge/Documentation-pyDecNef-red.svg" alt="Documentation"></a>
 </p>
-<br></br>
+<p></p>
 <p align="center">
   <img src="https://pedromargolles.github.io/pyDecNef/assets/images/wide_logo2.png">
 </p>
