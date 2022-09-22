@@ -1,7 +1,7 @@
+<p></p>
 <p align="center">
   <img src="https://pedromargolles.github.io/pyDecNef/assets/images/wide_logo2.png">
 </p>
-<br></br>
 <p align="center">
   <a href="https://www.gnu.org/licenses/gpl-3.0"><img src="https://img.shields.io/badge/License-GPLv3-blue.svg" alt="License"></a>
   <a href="mailto:pedromargolles@gmail.com"><img src="https://img.shields.io/badge/Ask%20me-anything-1abc9c.svg" alt="Ask Me Anything"></a>
