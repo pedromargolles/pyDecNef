@@ -1,9 +1,9 @@
 <p align="center">
-  <a href="https://www.gnu.org/licenses/gpl-3.0"><img src="https://img.shields.io/badge/License-GPLv3-blue.svg" alt="License"></a>
+  <img src="https://pedromargolles.github.io/pyDecNef/assets/images/wide_logo2.png">
 </p>
 
 <p align="center">
-  <img src="https://pedromargolles.github.io/pyDecNef/assets/images/wide_logo2.png">
+  <a href="https://www.gnu.org/licenses/gpl-3.0"><img src="https://img.shields.io/badge/License-GPLv3-blue.svg" alt="License"></a>
 </p>
 
 ## About
