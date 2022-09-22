@@ -56,17 +56,22 @@ ROI_mask_name = 'ROI'
 # LOAD PRE-PROCESSED VOLUMES OF INTEREST, LABELS, INFORMATION FOR ZSCORING AND ROI MASK
 #############################################################################################
 
-preprocessed_vols_of_interest = load_img(str(vols_of_interest_dir / 'preprocessed_vols_of_interest.nii.gz')) # Preprocessed volumes of interest
-mean_vols_of_interest = load_img(str(vols_of_interest_dir / 'mean_vols_of_interest.nii.gz')) # Whole-brain BOLD signal mean by voxel
-std_vols_of_interest = load_img(str(vols_of_interest_dir / 'std_vols_of_interest.nii.gz')) # Whole-brain BOLD signal STD by voxel
-labels_vols_of_interest = pd.read_csv(str(vols_of_interest_dir /  'labels_vols_of_interest.csv'))
+preprocessed_vols_of_interest_file = str(vols_of_interest_dir / 'preprocessed_vols_of_interest.nii.gz')
+mean_vols_of_interest_file = str(vols_of_interest_dir / 'mean_vols_of_interest.nii.gz')
+std_vols_of_interest_file = str(vols_of_interest_dir / 'std_vols_of_interest.nii.gz')
+labels_vols_of_interest_file = str(vols_of_interest_dir /  'labels_vols_of_interest.csv')
+
+preprocessed_vols_of_interest = load_img(preprocessed_vols_of_interest_file) # Preprocessed volumes of interest
+mean_vols_of_interest = load_img(mean_vols_of_interest_file) # Whole-brain BOLD signal mean by voxel
+std_vols_of_interest = load_img(std_vols_of_interest_file) # Whole-brain BOLD signal STD by voxel
+labels_vols_of_interest = pd.read_csv(labels_vols_of_interest_file)
 
 #############################################################################################
 # MAPPING VOLUMES' VOXELS IN THE WHOLE-BRAIN 3D SPACE TO MASKED 2D SPACE
 #############################################################################################
 
-ref_vol = ref_vol_dir / 'ref_vol_deobliqued_brain.nii'
-ref_vol = load_img(str(ref_vol))
+brain_ref_vol_file = str(ref_vol_dir / 'ref_vol_deobliqued_brain.nii')
+brain_ref_vol = load_img(brain_ref_vol_file)
 
 # Use NiLearn NiftiMasker class to convert whole-brain NiLearn images to masked flatten numpy arrays and restore original space if needed
 # Using this trick you can easely map each voxel in the 3D space (i.e., NiLearn images) to the masked 2D space (i.e., masked flatten numpy arrays)
@@ -76,7 +81,7 @@ nifti_masker = NiftiMasker(mask_img = ROI_mask,
                            detrend = False, # Don't preprocess data at this point
                            )
 
-nifti_masker.fit(ref_vol) # Fit NiftiMasker to ref_vol dimensions
+nifti_masker.fit(brain_ref_vol) # Fit NiftiMasker to ref_vol dimensions
 
 #############################################################################################
 # MASK PREPROCESSED VOLUMES OF INTEREST

@@ -37,11 +37,12 @@ rois_dir = preprocessed_dir / 'ROIs_masks'
 # PREPARE ROIs MASKS
 #############################################################################################
 
-brain_mask = load_img(str(ref_vol_dir / 'ref_vol_deoblique_brainmask.nii')) # Load reference volume
+brainmask_ref_vol_file = str(ref_vol_dir / 'ref_vol_deoblique_brainmask.nii')
+brain_mask = load_img(brainmask_ref_vol_file) # Load reference volume
 
-for roi in rois_dir.glob('*.nii.gz'): # For each ROI image in masks folder
-    filename = roi.name.split('.nii.gz')[0] # Get mask name
-    mask_img = load_img(str(roi))
+for roi_file in rois_dir.glob('*.nii.gz'): # For each ROI image in masks folder
+    filename = roi_file.name.split('.nii.gz')[0] # Get mask name
+    mask_img = load_img(str(roi_file))
     mask_data = mask_img.get_fdata()
     mask_data = np.where(mask_data != 0, 1, mask_data) # Set as 1 values all non-zero mask values
     new_mask_img = new_img_like(brain_mask, mask_data, copy_header = True)

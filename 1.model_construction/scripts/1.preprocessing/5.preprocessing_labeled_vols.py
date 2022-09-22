@@ -43,17 +43,18 @@ vols_of_interest_dir.mkdir(exist_ok = True, parents = True)
 # GET LABELED AND CO-REGISTERED FUNCTIONAL DATA
 #############################################################################################
 
-labeled_vols = sorted([str(run) for run in labeled_dir.glob('*.nii.gz')]) # Sort labeled runs
-vols_of_interest_csv = sorted([str(run) for run in labeled_dir.glob('*_vols_of_interest.csv')]) # Sort volumes of interest CSV files by run
-runs = list(zip(labeled_vols, vols_of_interest_csv))
+labeled_vols_files = sorted([str(run) for run in labeled_dir.glob('*.nii.gz')]) # Sort labeled runs
+vols_of_interest_csv_files = sorted([str(run) for run in labeled_dir.glob('*_vols_of_interest.csv')]) # Sort volumes of interest CSV files by run
+runs = list(zip(labeled_vols_files, vols_of_interest_csv_files))
 
 #############################################################################################
 # MAPPING VOLUMES' VOXELS IN THE 3D SPACE TO 2D SPACE
 #############################################################################################
 
-ref_vol = load_img(str(ref_vol_dir / 'ref_vol_deobliqued_brain.nii'))
-dummy_mask = np.ones(ref_vol.shape[0:3]) # Create a matrix of one values with the same ref_vol dimensions
-dummy_mask = new_img_like(ref_vol, dummy_mask, copy_header = True) # Create a dummy mask for NIfTI to numpy array conversion of whole-brain information and vice versa
+brain_ref_vol_file = str(ref_vol_dir / 'ref_vol_deobliqued_brain.nii')
+brain_ref_vol = load_img(brain_ref_vol_file)
+dummy_mask = np.ones(brain_ref_vol.shape[0:3]) # Create a matrix of one values with the same ref_vol dimensions
+dummy_mask = new_img_like(brain_ref_vol, dummy_mask, copy_header = True) # Create a dummy mask for NIfTI to numpy array conversion of whole-brain information and vice versa
 
 # Use NiLearn NiftiMasker class to convert NiLearn images to flatten numpy arrays and unconvert again to NiLearn image format
 # Using this trick you can easely map each voxel in the 3D space (i.e., NiLearn images) to the 2D space (i.e., flatten numpy arrays)
@@ -98,11 +99,11 @@ def zscore_func(array):
 
 vols_of_interest = []
 labels_vols_of_interest = []
-for labeled_vols, vols_of_interest_csv in runs: # Preprocess labeled volumes by fMRI run
-    print('\nProcessing:', labeled_vols, vols_of_interest_csv)
+for labeled_vols_file, vols_of_interest_csv_file in runs: # Preprocess labeled volumes by fMRI run
+    print('\nProcessing:', labeled_vols_file, vols_of_interest_csv_file)
 
-    labeled_vols = load_img(labeled_vols) # Load labeled volumes and their respective labels
-    vols_of_interest_csv = pd.read_csv(vols_of_interest_csv)
+    labeled_vols = load_img(labeled_vols_file) # Load labeled volumes and their respective labels
+    vols_of_interest_csv = pd.read_csv(vols_of_interest_csv_file)
     labels_vols_of_interest.append(vols_of_interest_csv)
 
     # Transform 4D Nilearn images to 2D numpy arrays

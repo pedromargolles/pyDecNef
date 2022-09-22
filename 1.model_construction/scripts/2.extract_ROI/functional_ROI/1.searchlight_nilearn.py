@@ -58,9 +58,13 @@ searchlight_radius = 9 # Radius of the searchlight ball (in millimeters). It is 
 # LOAD PREPROCESSED VOLS OF INTEREST AND CORRESPONDING LABELS
 #############################################################################################
 
-preprocessed_vols_of_interest = load_img(str(vols_of_interest_dir / 'preprocessed_vols_of_interest.nii.gz'))
-labels_vols_of_interest = pd.read_csv(str(vols_of_interest_dir / 'labels_vols_of_interest.csv'))
-brain_mask = load_img(str(ref_vol_dir / 'ref_vol_deobliqued_brainmask.nii'))
+preprocessed_vols_of_interest_file = str(vols_of_interest_dir / 'preprocessed_vols_of_interest.nii.gz')
+labeled_vols_of_interest_file = str(vols_of_interest_dir / 'labels_vols_of_interest.csv')
+brainmask_ref_vol_file = str(ref_vol_dir / 'ref_vol_deobliqued_brainmask.nii')
+
+preprocessed_vols_of_interest = load_img(preprocessed_vols_of_interest_file)
+labels_vols_of_interest = pd.read_csv(labeled_vols_of_interest_file)
+brain_mask = load_img(brainmask_ref_vol_file)
 
 #############################################################################################
 # PREPARE DATA FOR CLASSIFICATION

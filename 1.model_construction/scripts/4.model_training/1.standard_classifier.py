@@ -56,10 +56,13 @@ model_name = 'model'
 # LOAD MASKED VOLUMES OF INTEREST AND THEIR LABELS
 #############################################################################################
 
-X = np.load(np.save(str(masked_vols_of_interest_dir / f'preprocessed_vols_of_interest_{ROI_mask_name}.npy'))) # Preprocessed & masked volumes
-labels = pd.read_csv(str(masked_vols_of_interest_dir / f'labels_vols_of_interest.csv')) # Volumes labels
+masked_preprocessed_vols_of_interest_file = str(masked_vols_of_interest_dir / f'preprocessed_vols_of_interest_{ROI_mask_name}.npy')
+labels_vols_of_interest_file = str(masked_vols_of_interest_dir / f'labels_vols_of_interest.csv')
+
+X = np.load(masked_preprocessed_vols_of_interest_file) # Preprocessed & masked volumes
+labels = pd.read_csv(labels_vols_of_interest_file) # Volumes labels
 y = labels.trial_category # Category targets corresponding to each volume
-runs = labels.run # Runs corresponding to each volume
+runs = labels.run # Run corresponding to each volume
 
 #############################################################################################
 # DISCARD CATEGORY OF VOLUMES FOR BINARY CLASSIFICATION

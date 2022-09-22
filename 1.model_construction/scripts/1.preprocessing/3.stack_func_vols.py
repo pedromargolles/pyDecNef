@@ -36,8 +36,8 @@ preprocessed_func_dir = preprocessed_dir / 'preprocessed_func'
 for folder in preprocessed_func_dir.iterdir():
     if folder.is_dir(): # Iterate over all preprocessed functional runs folders
 
-        vols = [vol_file for vol_file in folder.glob('*.nii')] # List all preprocessed functional volumes of this run
-        sorted_vols = sorted(vols, key = lambda vol_file: int(vol_file.name.split('_')[2])) # Ensure volumes are correctly sorted by their index
+        vols_files = [vol_file for vol_file in folder.glob('*.nii')] # List all preprocessed functional volumes of this run
+        sorted_vols = sorted(vols_files, key = lambda vol_file: int(vol_file.name.split('_')[2])) # Ensure volumes are correctly sorted by their index
         sorted_vols_str = [str(vol_file) for vol_file in sorted_vols] # Convert Pathlib format routes to str to avoid Nilearn errors
 
         print(f'\n{folder.name} sorted functional volumes:')
@@ -46,7 +46,7 @@ for folder in preprocessed_func_dir.iterdir():
 
         stacked_run = concat_imgs(sorted_vols_str) # Concatenate all volumes in one 4D array
 
-        stacked_file = folder / (folder.name + '.nii.gz')
+        stacked_file = str(folder / (folder.name + '.nii.gz'))
         stacked_run.to_filename(stacked_file) # Save stacked data as a single compressed NIfTI file
         for vol_file in sorted_vols:
             vol_file.unlink() # Delete individual NIfTI files from each run folder to free up space

@@ -64,7 +64,7 @@ preprocessed_func_dir.mkdir(exist_ok = True, parents = True)
 #   4 - Perform brain extraction
 #   5 - Co-register volume to reference volume
 
-ref_vol = str(ref_vol_dir / 'ref_vol_deobliqued_brain.nii') # Set reference volume for co-registration
+brain_ref_vol_file = str(ref_vol_dir / 'ref_vol_deobliqued_brain.nii') # Set reference volume brain for co-registration
 
 for folder in raw_func_vols_dir.iterdir():
     if folder.is_dir(): # Iterate over all functional runs folders
@@ -83,7 +83,7 @@ for folder in raw_func_vols_dir.iterdir():
             nifti_file = str(run_dir / (vol_name + '.nii')) # To save each vol as .nii instead to .nii.gz to load faster
             deoblique.inputs.in_file = nifti_file # Get NIfTI file
             deoblique.inputs.deoblique = True # Deoblique NIfTI files
-            deoblique.inputs.gridset = ref_vol # Copy ref_vol grid so volumes dimensions match between runs and sessions
+            deoblique.inputs.gridset = brain_ref_vol_file # Copy ref_vol brain grid so volumes dimensions match between runs and sessions
             deoblique.inputs.outputtype = 'NIFTI'
             deobliqued_file = str(run_dir / (vol_name + '_deobliqued.nii')) # Use *.nii format instead of *.nii.gz to improve processing speed in during real-time decoding neurofeedback training session
             deoblique.inputs.out_file = deobliqued_file
@@ -105,7 +105,7 @@ for folder in raw_func_vols_dir.iterdir():
             # Co-register functional volume brain to reference volume brain
             volreg = afni.Volreg() # Use AFNI 3dvolreg command
             volreg.inputs.in_file = brain_file
-            volreg.inputs.basefile = ref_vol # Take reference volume as base file during co-registration
+            volreg.inputs.basefile = brain_ref_vol_file # Take reference volume brain as base file during co-registration
             volreg.inputs.args = '-heptic' # Spatial interpolation
             volreg.inputs.outputtype = 'NIFTI'
             oned_file = str(run_dir / (vol_name + '_deoblique_brain_coregistered.1D')) 
@@ -125,7 +125,9 @@ for folder in raw_func_vols_dir.iterdir():
 #############################################################################################
 # SAVE CO-REGISTRATION BRAIN EXTRACTION CONFIGURATION FOR REAL-TIME PREPROCESSING
 #############################################################################################
-with open(str(rt_resources_coregistration / "bet_config.txt"), "w") as file:
+
+bet_config_file = str(rt_resources_coregistration / "bet_config.txt")
+with open(bet_config_file, "w") as file:
     content = [f"erode = {erode}\n", f"clfrac = {clfrac}\n"]
     file.writelines(content)
     file.close()
