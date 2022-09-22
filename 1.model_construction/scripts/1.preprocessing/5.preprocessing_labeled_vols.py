@@ -34,7 +34,7 @@ preprocessed_dir = data_dir / 'preprocessed/'
 preprocessed_func_dir = preprocessed_dir / 'preprocessed_func'
 ref_vol_dir = preprocessed_dir / 'ref_vol'
 labeled_dir = preprocessed_dir / 'labeled_vols_of_interest'
-vols_of_interest_dir = preprocessed_dir / 'preprocessed_vols_of_interest'
+vols_of_interest_dir = preprocessed_dir / 'stacked_vols_of_interest'
 
 # Create dirs
 vols_of_interest_dir.mkdir(exist_ok = True, parents = True)

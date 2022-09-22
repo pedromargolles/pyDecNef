@@ -34,7 +34,7 @@ exp_dir = Path().absolute().parent.parent.parent
 data_dir = exp_dir / 'data'
 preprocessed_dir = data_dir / 'preprocessed/'
 ref_vol_dir = preprocessed_dir / 'ref_vol'
-vols_of_interest_dir = preprocessed_dir / 'preprocessed_vols_of_interest'
+vols_of_interest_dir = preprocessed_dir / 'stacked_vols_of_interest'
 decoding_results_dir = preprocessed_dir / 'decoding_results'
 searchlight_dir = decoding_results_dir / 'searchlight'
 rois_dir = preprocessed_dir / 'ROIs_masks'
@@ -88,7 +88,7 @@ cv_groups = labels_vols_of_interest.run # Grouping variable to use during cross-
 
 logistic_model = LogisticRegression(C = 1.0, # Set decoding model
                                     max_iter = 5000,
-                                    penalty = 'l2',
+                                    penalty = 'l2' # L2 regularization,
                                     solver = 'lbfgs',
                                     random_state = 12345,
                                     )

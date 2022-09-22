@@ -67,9 +67,12 @@ mgz_anat_file = str(subject_dir / f'{subject_id.zfill(3)}.mgz')
 
 for roi_name, roi_id in rois.items():
     anat_roi_file = str(anat_rois_dir / f'{roi_name}.nii.gz')
-    subprocess.run([f'mri_binarize --i {aparc_aseg_file} --match {roi_id} --o {anat_roi_file}'], shell = True) # Extract anatomical ROI by using Freesurfer labels
-    subprocess.run([f'fslswapdim {anat_roi_file} x z -y {anat_roi_file}'], shell = True) # Swaps dimensions to avoid FSL errors
-    subprocess.run([f'mri_convert -i {anat_roi_file} -rl {mgz_anat_file} -o {anat_roi_file}'], shell = True) # Match swaped file to anatomical file used for reconstruction
+    # Extract anatomical ROI by using Freesurfer labels
+    subprocess.run([f'mri_binarize --i {aparc_aseg_file} --match {roi_id} --o {anat_roi_file}'], shell = True)
+    # Swaps dimensions to avoid FSL errors
+    subprocess.run([f'fslswapdim {anat_roi_file} x z -y {anat_roi_file}'], shell = True)
+    # Match swaped file to anatomical file used for reconstruction
+    subprocess.run([f'mri_convert -i {anat_roi_file} -rl {mgz_anat_file} -o {anat_roi_file}'], shell = True)
 
 #############################################################################################
 # MATCH FUNCTIONAL REFERENCE VOLUME TO ANATOMICAL SPACE
@@ -79,7 +82,8 @@ ref_vol_file = str(ref_vol_dir / 'ref_vol_deobliqued_brain.nii')
 anat_noneck_file = str(preprocessed_anat_dir / 'anat_deobliqued_noneck.nii.gz')
 brain_anat_noneck_file = str(preprocessed_anat_dir / 'anat_deobliqued_noneck_brain.nii.gz')
 refvol2anat_file = str(preprocessed_anat_dir / 'refvol2anat.nii.gz')
-subprocess.run([f'epi_reg --epi={ref_vol_file} --t1={anat_noneck_file} --t1brain={brain_anat_noneck_file } --out={refvol2anat_file}'], shell = True) # Convert reference volume to anatomical space
+ # Convert reference volume to anatomical space
+subprocess.run([f'epi_reg --epi={ref_vol_file} --t1={anat_noneck_file} --t1brain={brain_anat_noneck_file } --out={refvol2anat_file}'], shell = True)
 
 #############################################################################################
 # INVERT THE DIRECTION OF TRANSFORMATION PARAMETERS (REFVOL2ANAT.MAT TO ANAT2REFVOL.MAT)
@@ -87,7 +91,8 @@ subprocess.run([f'epi_reg --epi={ref_vol_file} --t1={anat_noneck_file} --t1brain
 
 refvol2anat_matrix_file = str(preprocessed_anat_dir / 'refvol2anat.mat')
 anat2refvol_matrix_file = str(preprocessed_anat_dir / 'anat2refvol.mat')
-subprocess.run([f'convert_xfm -omat {anat2refvol_matrix_file} -inverse {refvol2anat_matrix_file}'], shell = True) # Invert transformation parameters to transform anatomical data to functional space
+# Invert transformation parameters to transform anatomical data to functional space
+subprocess.run([f'convert_xfm -omat {anat2refvol_matrix_file} -inverse {refvol2anat_matrix_file}'], shell = True)
 
 #############################################################################################
 # CONVERT ANATOMICAL ROIs to FUNCTIONAL SPACE
@@ -96,5 +101,7 @@ subprocess.run([f'convert_xfm -omat {anat2refvol_matrix_file} -inverse {refvol2a
 for roi_name, roi_id in rois.items():
     anat_roi_file = str(anat_rois_dir / f'{roi_name}.nii.gz')
     func_roi_file = str(func_rois_dir / f'{roi_name}_func.nii.gz')
-    subprocess.run([f'flirt -in {anat_roi_file} -ref {ref_vol_file} -applyxfm -init {anat2refvol_matrix_file} -o {func_roi_file}'], shell = True) # Convert anatomical ROI to functional space using inverted transformation parameters
-    subprocess.run([f'fslmaths {func_roi_file} -mul 2 -thr `fslstats {func_roi_file} -p 99.6` -bin {func_roi_file}'], shell = True) # Binarize and refine functional ROI
+    # Convert anatomical ROI to functional space using inverted transformation parameters
+    subprocess.run([f'flirt -in {anat_roi_file} -ref {ref_vol_file} -applyxfm -init {anat2refvol_matrix_file} -o {func_roi_file}'], shell = True)
+     # Binarize and refine functional ROI
+    subprocess.run([f'fslmaths {func_roi_file} -mul 2 -thr `fslstats {func_roi_file} -p 99.6` -bin {func_roi_file}'], shell = True)

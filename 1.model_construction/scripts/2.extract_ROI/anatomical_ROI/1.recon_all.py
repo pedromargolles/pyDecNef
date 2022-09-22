@@ -56,14 +56,16 @@ orig_folder.mkdir(exist_ok = True, parents = True)
 # CONVERT ANATOMICAL DICOM TO NIFTI
 #############################################################################################
 
-subprocess.run([f'dcm2niix -f anat -o {preprocessed_anat_dir} {anat_dir}'], shell = True) # Stack all anatomical DICOM files into a NIFTI file
+# Stack all anatomical DICOM files into a NIFTI file
+subprocess.run([f'dcm2niix -f anat -o {preprocessed_anat_dir} {anat_dir}'], shell = True)
 
 #############################################################################################
 # DEOBLIQUE ANATOMICAL NIFTI
 #############################################################################################
 
 anat_file = next(preprocessed_anat_dir.glob('anat.nii'))
-deobliqued_anat_file = str(preprocessed_anat_dir / (anat_file.name.split('.nii'))[0] / '_deobliqued.nii.gz') # Deoblique anatomical file as functional files
+# Deoblique anatomical file as functional files
+deobliqued_anat_file = str(preprocessed_anat_dir / (anat_file.name.split('.nii'))[0] / '_deobliqued.nii.gz')
 subprocess.run([f'3dWarp -prefix {deobliqued_anat_file} -deoblique {anat_file}'], shell = True)
 
 #############################################################################################
@@ -71,7 +73,8 @@ subprocess.run([f'3dWarp -prefix {deobliqued_anat_file} -deoblique {anat_file}']
 #############################################################################################
 
 anat_noneck_file = str(preprocessed_anat_dir / 'anat_deobliqued_noneck.nii.gz')
-subprocess.run([f'robustfov -i {deobliqued_anat_file} -b {neck_extraction_size} -r {anat_noneck_file}'], shell = True) # Neck extraction from anatomical image to improve brain extraction
+# Neck extraction from anatomical image to improve brain extraction
+subprocess.run([f'robustfov -i {deobliqued_anat_file} -b {neck_extraction_size} -r {anat_noneck_file}'], shell = True)
 
 #############################################################################################
 # PERFORM BRAIN EXTRACTION FROM ANATOMICAL IMAGE
@@ -79,20 +82,23 @@ subprocess.run([f'robustfov -i {deobliqued_anat_file} -b {neck_extraction_size} 
 
 anat_noneck_file = str(preprocessed_anat_dir / 'anat_deobliqued_noneck.nii.gz')
 brain_anat_noneck_file = str(preprocessed_anat_dir / 'anat_deobliqued_noneck_brain.nii.gz')
-subprocess.run([f'bet {anat_noneck_file} {brain_anat_noneck_file} -R -f {bet_fractional_intensity} -g {bet_vertical_gradient} -m'], shell = True) # Perform brain extraction on the anatomical image
+# Perform brain extraction on the anatomical image
+subprocess.run([f'bet {anat_noneck_file} {brain_anat_noneck_file} -R -f {bet_fractional_intensity} -g {bet_vertical_gradient} -m'], shell = True)
 
 #############################################################################################
 # CONVERT ANATOMICAL NIFTI TO MGZ FORMAT
 #############################################################################################
 
 new_anat_file = str(subject_dir / f'{subject_id.zfill(3)}.mgz')
-subprocess.run([f'mri_convert {anat_noneck_file} {new_anat_file}'], shell = True) # Convert NIFTI file to mgz format to avoid recon-all incompabilities
+# Convert NIFTI file to mgz format to avoid recon-all incompabilities
+subprocess.run([f'mri_convert {anat_noneck_file} {new_anat_file}'], shell = True) 
 
 #############################################################################################
 # RECONSTRUCT CORTICAL SURFACE
 #############################################################################################
 
-subprocess.run([f'recon-all -s {subject_id} -sd {subject_dir} -all'], shell = True) # Perform recon-all with Freesurfer
+# Perform recon-all with Freesurfer
+subprocess.run([f'recon-all -s {subject_id} -sd {subject_dir} -all'], shell = True)
 
 
 
