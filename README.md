@@ -2,7 +2,6 @@
 <p align="center">
   <img src="https://pedromargolles.github.io/pyDecNef/assets/images/wide_logo2.png">
 </p>
-## 
 
 ## About
 
