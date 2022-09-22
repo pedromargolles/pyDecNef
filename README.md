@@ -3,7 +3,7 @@
   <a href="pedromargolles@gmail.com"><img src="https://img.shields.io/badge/Ask%20me-anything-1abc9c.svg" alt="Ask Me Anything"></a>
   <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Made%20with-Python-1f425f.svg" alt="Made with Python"></a>
 </p>
-
+<br></br>
 <p align="center">
   <img src="https://pedromargolles.github.io/pyDecNef/assets/images/wide_logo2.png">
 </p>
