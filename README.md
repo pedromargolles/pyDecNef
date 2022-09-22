@@ -5,9 +5,7 @@
 <a href="https://pedromargolles.github.io/pyDecNef/"><img src="https://img.shields.io/badge/Documentation-pyDecNef-red.svg" alt="Documentation"></a>
 <a href=""><img src="https://img.shields.io/badge/Citation-DOI-green.svg" alt="Citation"></a>
 <br></br>
-<p align="center">
-  <img src="https://pedromargolles.github.io/pyDecNef/assets/images/wide_logo2.png">
-</p>
+<img src="https://pedromargolles.github.io/pyDecNef/assets/images/wide_logo2.png">
 
 ## About
 
