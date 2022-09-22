@@ -31,10 +31,10 @@ import numpy as np
 exp_dir = Path().absolute().parent.parent
 data_dir = exp_dir / 'data'
 preprocessed_dir = exp_dir / 'preprocessed/'
-ref_vol_dir = preprocessed_dir / '1.ref_vol'
-vols_of_interest_dir = preprocessed_dir / '4.preprocessed_vols_of_interest'
-rois_dir = preprocessed_dir / '6.ROIs_masks'
-masked_vols_of_interest_dir = preprocessed_dir / '7.masked_vols_of_interest'
+ref_vol_dir = preprocessed_dir / 'ref_vol'
+vols_of_interest_dir = preprocessed_dir / 'preprocessed_vols_of_interest'
+rois_dir = preprocessed_dir / 'ROIs_masks'
+masked_vols_of_interest_dir = preprocessed_dir / 'masked_vols_of_interest'
 rt_resources = data_dir / 'rt_resources'
 rt_resources_zscoring = rt_resources / 'zscoring'
 

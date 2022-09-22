@@ -27,7 +27,7 @@ from nilearn.image import concat_imgs
 exp_dir = Path().absolute().parent.parent
 data_dir = exp_dir / 'data'
 preprocessed_dir = data_dir / 'preprocessed/'
-preprocessed_func_dir = preprocessed_dir / '2.preprocessed_func'
+preprocessed_func_dir = preprocessed_dir / 'preprocessed_func'
 
 #############################################################################################
 # STACK IN A NIFTI FILE ALL PREPROCESSED FUNCTIONAL VOLUMES BY RUN

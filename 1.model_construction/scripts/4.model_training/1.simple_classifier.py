@@ -33,8 +33,8 @@ import numpy as np
 exp_dir = Path().absolute().parent.parent
 data_dir = exp_dir / 'data'
 preprocessed_dir = data_dir / 'preprocessed/'
-masked_vols_of_interest_dir = preprocessed_dir / '7.masked_vols_of_interest'
-model_dir = preprocessed_dir / '8.model'
+masked_vols_of_interest_dir = preprocessed_dir / 'masked_vols_of_interest'
+model_dir = preprocessed_dir / 'model'
 rt_resources = exp_dir / 'rt_resources'
 rt_resources_model = rt_resources / 'model'
 

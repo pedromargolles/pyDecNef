@@ -43,8 +43,8 @@ data_dir = exp_dir / 'data'
 raw_dir = data_dir / 'raw'
 func_logs_dir = raw_dir / 'logs'
 preprocessed_dir = data_dir / 'preprocessed/'
-preprocessed_func_dir = preprocessed_dir / '2.preprocessed_func'
-labeled_dir = preprocessed_dir / '3.labeled_vols_of_interest'
+preprocessed_func_dir = preprocessed_dir / 'preprocessed_func'
+labeled_dir = preprocessed_dir / 'labeled_vols_of_interest'
 
 # Create dirs
 labeled_dir.mkdir(exist_ok = True, parents = True)

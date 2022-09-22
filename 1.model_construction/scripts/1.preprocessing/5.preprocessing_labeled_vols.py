@@ -32,9 +32,9 @@ exp_dir = Path().absolute().parent.parent
 data_dir = exp_dir / 'data'
 preprocessed_dir = data_dir / 'preprocessed/'
 preprocessed_func_dir = preprocessed_dir / 'preprocessed_func'
-ref_vol_dir = preprocessed_dir / '1.ref_vol'
-labeled_dir = preprocessed_dir / '3.labeled_vols_of_interest'
-vols_of_interest_dir = preprocessed_dir / '4.preprocessed_vols_of_interest'
+ref_vol_dir = preprocessed_dir / 'ref_vol'
+labeled_dir = preprocessed_dir / 'labeled_vols_of_interest'
+vols_of_interest_dir = preprocessed_dir / 'preprocessed_vols_of_interest'
 
 # Create dirs
 vols_of_interest_dir.mkdir(exist_ok = True, parents = True)

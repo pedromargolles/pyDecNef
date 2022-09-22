@@ -34,7 +34,7 @@ data_dir = exp_dir / 'data'
 raw_dir = data_dir / 'raw'
 raw_func_vols_dir = raw_dir / 'func'
 preprocessed_dir = data_dir / 'preprocessed/'
-ref_vol_dir = preprocessed_dir / '1.ref_vol'
+ref_vol_dir = preprocessed_dir / 'ref_vol'
 rt_resources = data_dir / 'rt_resources'
 rt_resources_coregistration = rt_resources / 'coregistration'
 
