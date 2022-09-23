@@ -1,4 +1,4 @@
-## What this folder contains?
+## What data you will find here?
 
 The first step in all fMRI Decoding Neurofeedback Studies is constructing a machine learning model.
 
