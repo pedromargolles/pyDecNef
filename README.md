@@ -22,7 +22,7 @@ Although this library, as it is, is oriented to the development of classical dec
 
 For example, experiments using GLM, adaptive experimental designs where experimental conditions are modified based on brain activation patterns, optimization and calibration designs, mental reading and signal reconstruction paradigms...
 
-**For more information visit [pyDecNef project webpage](https://pedromargolles.github.io/pyDecNef/).**
+**For more information and tutorials visit [pyDecNef project webpage](https://pedromargolles.github.io/pyDecNef/).**
 
 ## License
 
