@@ -15,8 +15,8 @@ import joblib
 import pandas as pd
 from pathlib import Path
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import roc_auc_score, cross_validate
-from sklearn.model_selection import LeaveOneGroupOut
+from sklearn.metrics import roc_auc_score
+from sklearn.model_selection import LeaveOneGroupOut, cross_validate
 import numpy as np
 
 #############################################################################################
@@ -35,7 +35,8 @@ data_dir = exp_dir / 'data'
 preprocessed_dir = data_dir / 'preprocessed/'
 masked_vols_of_interest_dir = preprocessed_dir / 'masked_vols_of_interest'
 model_dir = preprocessed_dir / 'model'
-rt_resources = exp_dir / 'rt_resources'
+subject_id = exp_dir.name.split('-')[1]
+rt_resources = data_dir / f'rt_resources/{subject_id}'
 rt_resources_model = rt_resources / 'model'
 
 # Create dirs
@@ -68,7 +69,7 @@ runs = labels.run # Run corresponding to each volume
 # DISCARD CATEGORY OF VOLUMES FOR BINARY CLASSIFICATION
 #############################################################################################
 
-discard_idxs = np.where(y != 2) # Discard volumes labeled as 2
+discard_idxs = np.where(y != 2)[0] # Discard volumes labeled as 2
 X = X[discard_idxs]
 y = y[discard_idxs]
 runs = runs[discard_idxs]
@@ -90,15 +91,15 @@ clf = LogisticRegression(solver = 'liblinear', random_state = 123)
 # EVALUATE MODEL WITH ROC_AUC BY USING ONE-RUN-OUT CROSS-VALIDATION
 #############################################################################################
 
-scores_by_run = cross_validate(clf, X, y, cv = loro, scoring = 'roc_auc') # One-run-out cross-validation using 
-                                                                          # 'roc_auc' as scoring metric
-mean_score = scores_by_run.mean() # Mean ROC-AUC across runs
-std_score = scores_by_run.std() # STD ROC-AUC across runs
+scores_by_run = cross_validate(clf, X, y, cv = loro, scoring = 'roc_auc', groups = runs) # One-run-out cross-validation using 
+                                                                                         # 'roc_auc' as scoring metric
+mean_score = scores_by_run['test_score'].mean() # Mean ROC-AUC across runs
+std_score = scores_by_run['test_score'].std() # STD ROC-AUC across runs
 
 print('\n')
 print('----------------------')
 print('Model:', model_name)
-print('Mean ROC-AUC:', mean_score, 'STD ROC-AUC:', std_score)
+print('Mean ROC-AUC across runs:', mean_score, 'STD ROC-AUC across runs:', std_score)
 print('----------------------')
 print('\n')
 

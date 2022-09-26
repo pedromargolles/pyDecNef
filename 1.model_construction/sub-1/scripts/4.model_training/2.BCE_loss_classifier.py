@@ -34,7 +34,8 @@ data_dir = exp_dir / 'data'
 preprocessed_dir = data_dir / 'preprocessed/'
 masked_vols_of_interest_dir = preprocessed_dir / 'masked_vols_of_interest'
 model_dir = preprocessed_dir / 'model'
-rt_resources = exp_dir / 'rt_resources'
+subject_id = exp_dir.name.split('-')[1]
+rt_resources = data_dir / f'rt_resources/{subject_id}'
 rt_resources_model = rt_resources / 'model'
 
 # Create dirs

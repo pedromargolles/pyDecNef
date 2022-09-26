@@ -35,13 +35,11 @@ data_dir = exp_dir / 'data'
 preprocessed_dir = data_dir / 'preprocessed/'
 ref_vol_dir = preprocessed_dir / 'ref_vol'
 vols_of_interest_dir = preprocessed_dir / 'stacked_vols_of_interest'
-decoding_results_dir = preprocessed_dir / 'decoding_results'
-searchlight_dir = decoding_results_dir / 'searchlight'
+searchlight_dir = preprocessed_dir / 'searchlight'
 rois_dir = preprocessed_dir / 'ROIs_masks'
 func_rois_dir = rois_dir / 'functional_ROIs'
 
 # Create dirs
-decoding_results_dir.mkdir(exist_ok = True, parents = True)
 searchlight_dir.mkdir(exist_ok = True, parents = True)
 rois_dir.mkdir(exist_ok = True, parents = True)
 func_rois_dir.mkdir(exist_ok = True, parents = True)
@@ -88,7 +86,7 @@ cv_groups = labels_vols_of_interest.run # Grouping variable to use during cross-
 
 logistic_model = LogisticRegression(C = 1.0, # Set decoding model
                                     max_iter = 5000,
-                                    penalty = 'l2' # L2 regularization,
+                                    penalty = 'l2', # L2 regularization
                                     solver = 'lbfgs',
                                     random_state = 12345,
                                     )

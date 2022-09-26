@@ -35,7 +35,8 @@ raw_dir = data_dir / 'raw'
 raw_func_vols_dir = raw_dir / 'func'
 preprocessed_dir = data_dir / 'preprocessed/'
 ref_vol_dir = preprocessed_dir / 'ref_vol'
-rt_resources = data_dir / 'rt_resources'
+subject_id = exp_dir.name.split('-')[1]
+rt_resources = data_dir / f'rt_resources/{subject_id}'
 rt_resources_coregistration = rt_resources / 'coregistration'
 
 # Create dirs

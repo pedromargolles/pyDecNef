@@ -26,7 +26,6 @@ import subprocess
 # SETUP VARIABLES
 #############################################################################################
 
-subject_id = 1
 neck_extraction_size = 140
 bet_fractional_intensity = 0.25 # Fractional intensity threshold (0 - 1); default = 0.5; smaller values
                                 # give larger brain outline estimates
@@ -44,13 +43,15 @@ anat_dir = raw_dir / 'anat'
 preprocessed_dir = data_dir / 'preprocessed/'
 preprocessed_anat_dir = preprocessed_dir / 'anat'
 recon_all_dir = preprocessed_dir / 'recon_all'
-subject_dir = recon_all_dir / str(subject_id)
-orig_folder = recon_all_dir / 'mri/orig'
+subject_id = exp_dir.name.split('-')[1]
+subject_dir = recon_all_dir / subject_id
+orig_dir = subject_dir / 'mri/orig'
 
 # Create dirs
+preprocessed_anat_dir.mkdir(exist_ok = True)
 recon_all_dir.mkdir(exist_ok = True, parents = True)
 subject_dir.mkdir(exist_ok = True, parents = True)
-orig_folder.mkdir(exist_ok = True, parents = True)
+orig_dir.mkdir(exist_ok = True, parents = True)
 
 #############################################################################################
 # CONVERT ANATOMICAL DICOM TO NIFTI
@@ -65,7 +66,7 @@ subprocess.run([f'dcm2niix -f anat -o {preprocessed_anat_dir} {anat_dir}'], shel
 
 anat_file = next(preprocessed_anat_dir.glob('anat.nii'))
 # Deoblique anatomical file as functional files
-deobliqued_anat_file = str(preprocessed_anat_dir / (anat_file.name.split('.nii'))[0] / '_deobliqued.nii.gz')
+deobliqued_anat_file = str(preprocessed_anat_dir / (anat_file.name.split('.nii')[0] + '_deobliqued.nii.gz'))
 subprocess.run([f'3dWarp -prefix {deobliqued_anat_file} -deoblique {anat_file}'], shell = True)
 
 #############################################################################################
@@ -89,7 +90,7 @@ subprocess.run([f'bet {anat_noneck_file} {brain_anat_noneck_file} -R -f {bet_fra
 # CONVERT ANATOMICAL NIFTI TO MGZ FORMAT
 #############################################################################################
 
-new_anat_file = str(subject_dir / f'{subject_id.zfill(3)}.mgz')
+new_anat_file = str(orig_dir / f'{subject_id.zfill(3)}.mgz')
 # Convert NIFTI file to mgz format to avoid recon-all incompabilities
 subprocess.run([f'mri_convert {anat_noneck_file} {new_anat_file}'], shell = True) 
 
@@ -98,7 +99,7 @@ subprocess.run([f'mri_convert {anat_noneck_file} {new_anat_file}'], shell = True
 #############################################################################################
 
 # Perform recon-all with Freesurfer
-subprocess.run([f'recon-all -s {subject_id} -sd {subject_dir} -all'], shell = True)
+subprocess.run([f'recon-all -s {subject_id} -sd {recon_all_dir} -all -cw256'], shell = True) # cw256 performs cropping if AFNI deoblique increases image dimensions to > 256
 
 
 

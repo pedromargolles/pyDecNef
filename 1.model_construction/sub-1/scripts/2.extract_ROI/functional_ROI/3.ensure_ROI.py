@@ -27,23 +27,24 @@ import numpy as np
 # SET FILE STRUCTURE
 #############################################################################################
 
-exp_dir = Path().absolute().parent.parent
+exp_dir = Path().absolute().parent.parent.parent
 data_dir = exp_dir / 'data'
 preprocessed_dir = data_dir / 'preprocessed/'
 ref_vol_dir = preprocessed_dir / 'ref_vol'
 rois_dir = preprocessed_dir / 'ROIs_masks'
+func_rois_dir = rois_dir / 'functional_ROIs'
 
 #############################################################################################
 # PREPARE ROIs MASKS
 #############################################################################################
 
-brainmask_ref_vol_file = str(ref_vol_dir / 'ref_vol_deoblique_brainmask.nii')
+brainmask_ref_vol_file = str(ref_vol_dir / 'ref_vol_deobliqued_brainmask.nii')
 brain_mask = load_img(brainmask_ref_vol_file) # Load reference volume
 
-for roi_file in rois_dir.glob('*.nii.gz'): # For each ROI image in masks folder
+for roi_file in func_rois_dir.glob('*.nii.gz'): # For each ROI image in masks folder
     filename = roi_file.name.split('.nii.gz')[0] # Get mask name
     mask_img = load_img(str(roi_file))
     mask_data = mask_img.get_fdata()
     mask_data = np.where(mask_data != 0, 1, mask_data) # Set as 1 values all non-zero mask values
     new_mask_img = new_img_like(brain_mask, mask_data, copy_header = True)
-    new_mask_img.to_filename(str(rois_dir / f'{filename}_mask_adapted.nii')) # Save corrected mask
+    new_mask_img.to_filename(str(rois_dir / f'{filename}_adapted.nii')) # Save corrected mask

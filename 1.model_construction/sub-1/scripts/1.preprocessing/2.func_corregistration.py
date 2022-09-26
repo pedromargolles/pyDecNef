@@ -45,7 +45,8 @@ raw_func_vols_dir = raw_dir / 'func'
 preprocessed_dir = data_dir / 'preprocessed/'
 ref_vol_dir = preprocessed_dir / 'ref_vol'
 preprocessed_func_dir = preprocessed_dir / 'preprocessed_func'
-rt_resources = data_dir / 'rt_resources'
+subject_id = exp_dir.name.split('-')[1]
+rt_resources = data_dir / f'rt_resources/{subject_id}'
 rt_resources_coregistration = rt_resources / 'coregistration'
 
 # Create dirs
@@ -72,7 +73,7 @@ for folder in raw_func_vols_dir.iterdir():
         run_dir = preprocessed_func_dir / folder.stem # Get functional run name and create a new folder in preprocessed_dir
         run_dir.mkdir(exist_ok = True, parents = True)
         
-        for vol_file in folder.glob('*.dcm'): # Co-register each volume in that run to reference volume
+        for vol_file in sorted(folder.glob('*.dcm')): # Co-register each volume in that run to reference volume
             
             # Convert volume DICOM to NIfTI using dcm2niix and store it in run_dir
             vol_name = vol_file.stem

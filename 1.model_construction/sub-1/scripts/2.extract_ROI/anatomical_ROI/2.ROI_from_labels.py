@@ -30,7 +30,6 @@ import subprocess
 # SETUP VARIABLES
 #############################################################################################
 
-subject_id = 1
 rois = {
         "FFG_left_comp": "1007",
         "FFG_right_comp": "2007",
@@ -46,7 +45,9 @@ preprocessed_dir = data_dir / 'preprocessed/'
 ref_vol_dir = preprocessed_dir / 'ref_vol'
 preprocessed_anat_dir = preprocessed_dir / 'anat'
 recon_all_dir = preprocessed_dir / 'recon_all'
-subject_dir = recon_all_dir / str(subject_id)
+subject_id = exp_dir.name.split('-')[1]
+subject_dir = recon_all_dir / subject_id
+orig_dir = subject_dir / 'mri/orig'
 rois_dir = preprocessed_dir / 'ROIs_masks'
 anat_rois_dir = rois_dir / 'anatomical_ROIs'
 func_rois_dir = rois_dir / 'functional_ROIs'
@@ -62,7 +63,7 @@ func_rois_dir.mkdir(exist_ok = True, parents = True)
 # EXTRACT ANATOMICAL ROIS FROM RECON-ALL APARC+ASEG LABELED SURFACES
 #############################################################################################
 
-aparc_aseg_file = str(subject_dir / f'mri/aparc+aseg.mgz')
+aparc_aseg_file = str(orig_dir / f'mri/aparc+aseg.mgz')
 mgz_anat_file = str(subject_dir / f'{subject_id.zfill(3)}.mgz')
 
 for roi_name, roi_id in rois.items():

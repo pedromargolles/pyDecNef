@@ -30,12 +30,14 @@ import numpy as np
 
 exp_dir = Path().absolute().parent.parent
 data_dir = exp_dir / 'data'
-preprocessed_dir = exp_dir / 'preprocessed/'
+preprocessed_dir = data_dir / 'preprocessed/'
 ref_vol_dir = preprocessed_dir / 'ref_vol'
 vols_of_interest_dir = preprocessed_dir / 'stacked_vols_of_interest'
 rois_dir = preprocessed_dir / 'ROIs_masks'
+func_rois_dir = rois_dir / 'functional_ROIs'
 masked_vols_of_interest_dir = preprocessed_dir / 'masked_vols_of_interest'
-rt_resources = data_dir / 'rt_resources'
+subject_id = exp_dir.name.split('-')[1]
+rt_resources = data_dir / f'rt_resources/{subject_id}'
 rt_resources_zscoring = rt_resources / 'zscoring'
 
 # Create dirs
@@ -47,7 +49,7 @@ rt_resources_zscoring.mkdir(exist_ok = True, parents = True)
 #############################################################################################
 
 # Relevant variables for masking already preprocessed volumes of interest
-ROI_mask = load_img(str(rois_dir / 'mask.nii.gz')) # ROI mask that will be used for masking volumes of interest
+ROI_mask = load_img(str(func_rois_dir / '_adapted.nii')) # ROI mask that will be used for masking volumes of interest
 
 # ROI mask output name
 ROI_mask_name = 'ROI'
@@ -93,11 +95,11 @@ masked_mean_vols_of_interest = nifti_masker.transform(mean_vols_of_interest) # M
 masked_std_vols_of_interest = nifti_masker.transform(std_vols_of_interest) # Mask whole-brain BOLD signal mean by voxel
 
 # Save masked numpy arrays for model training and z-scoring data for volumes processing in real time
-np.save(str(masked_vols_of_interest_dir / f'preprocessed_vols_of_interest_{ROI_mask_name}.npy'))
-np.save(str(masked_vols_of_interest_dir / f'mean_vols_of_interest_{ROI_mask_name}.npy'))
-np.save(str(masked_vols_of_interest_dir / f'std_vols_of_interest_{ROI_mask_name}.npy'))
+np.save(str(masked_vols_of_interest_dir / f'preprocessed_vols_of_interest_{ROI_mask_name}.npy'), masked_preprocessed_vols_of_interest)
+np.save(str(masked_vols_of_interest_dir / f'mean_vols_of_interest_{ROI_mask_name}.npy'), masked_mean_vols_of_interest)
+np.save(str(masked_vols_of_interest_dir / f'std_vols_of_interest_{ROI_mask_name}.npy'), masked_std_vols_of_interest)
 labels_vols_of_interest.to_csv(str(masked_vols_of_interest_dir / f'labels_vols_of_interest.csv'))
 
 # Copy z-scoring data for volumes processing in real time to rt_resources folder
-np.save(str(rt_resources_zscoring / f'mean_vols_of_interest_{ROI_mask_name}.npy'))
-np.save(str(rt_resources_zscoring / f'std_vols_of_interest_{ROI_mask_name}.npy'))
+np.save(str(rt_resources_zscoring / f'mean_vols_of_interest_{ROI_mask_name}.npy'), masked_mean_vols_of_interest)
+np.save(str(rt_resources_zscoring / f'std_vols_of_interest_{ROI_mask_name}.npy'), masked_std_vols_of_interest)
