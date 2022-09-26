@@ -51,6 +51,8 @@ orig_dir = subject_dir / 'mri/orig'
 rois_dir = preprocessed_dir / 'ROIs_masks'
 anat_rois_dir = rois_dir / 'anatomical_ROIs'
 func_rois_dir = rois_dir / 'functional_ROIs'
+rt_resources = data_dir / f'rt_resources/{subject_id}'
+rt_resources_rois = rt_resources / 'rois'
 
 # Create dirs
 recon_all_dir.mkdir(exist_ok = True, parents = True)
@@ -106,3 +108,5 @@ for roi_name, roi_id in rois.items():
     subprocess.run([f'flirt -in {anat_roi_file} -ref {ref_vol_file} -applyxfm -init {anat2refvol_matrix_file} -o {func_roi_file}'], shell = True)
      # Binarize and refine functional ROI
     subprocess.run([f'fslmaths {func_roi_file} -mul 2 -thr `fslstats {func_roi_file} -p 99.6` -bin {func_roi_file}'], shell = True)
+    # Copy ROI to rt_resources_dir
+    shutil.copy(func_roi_file, str(rt_resources_rois / f'{roi_name}_func.nii.gz'))

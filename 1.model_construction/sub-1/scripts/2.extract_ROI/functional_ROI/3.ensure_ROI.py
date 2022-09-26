@@ -33,6 +33,9 @@ preprocessed_dir = data_dir / 'preprocessed/'
 ref_vol_dir = preprocessed_dir / 'ref_vol'
 rois_dir = preprocessed_dir / 'ROIs_masks'
 func_rois_dir = rois_dir / 'functional_ROIs'
+subject_id = exp_dir.name.split('-')[1]
+rt_resources = data_dir / f'rt_resources/{subject_id}'
+rt_resources_rois = rt_resources / 'rois'
 
 #############################################################################################
 # PREPARE ROIs MASKS
@@ -47,4 +50,5 @@ for roi_file in func_rois_dir.glob('*.nii.gz'): # For each ROI image in masks fo
     mask_data = mask_img.get_fdata()
     mask_data = np.where(mask_data != 0, 1, mask_data) # Set as 1 values all non-zero mask values
     new_mask_img = new_img_like(brain_mask, mask_data, copy_header = True)
-    new_mask_img.to_filename(str(rois_dir / f'{filename}_adapted.nii')) # Save corrected mask
+    new_mask_img.to_filename(str(rois_dir / f'{filename}_func.nii')) # Save corrected mask
+    new_mask_img.to_filename(str(rt_resources_rois / f'{filename}_func.nii')) # Save corrected mask to rt_resources folder
